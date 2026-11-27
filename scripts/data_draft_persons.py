@@ -300,12 +300,19 @@ def _ascii(text: str) -> str:
 
 
 def aliases_for(label: str, extra: list[str]) -> list[str]:
-    """Lower-case name variants for GDELT matching: full names of at least two words."""
-    names = [label, *extra]
+    """Lower-case name variants for GDELT matching (dossier §4.5).
+
+    Kept: full names of at least two words that contain the family name of the label, without
+    quotes or titles. This drops nicknames ("tim apple", "the zuck"), birth names and stage
+    names ("dj d-sol") that would match unrelated articles.
+    """
+    family = _ascii(label).lower().split()[-1] if label.split() else ""
     out: list[str] = []
-    for n in names:
+    for n in [label, *extra]:
         for v in (n.lower().strip(), _ascii(n).lower().strip()):
-            if v and len(v.split()) >= 2 and v not in out and "(" not in v:
+            v = " ".join(v.replace("dr. ", "").replace("mr ", "").split())
+            if (v and len(v.split()) >= 2 and v not in out and family and family in _ascii(v)
+                    and not any(ch in v for ch in '()"')):
                 out.append(v)
     return out[:6]
 

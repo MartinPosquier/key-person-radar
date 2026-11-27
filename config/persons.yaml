@@ -61,8 +61,6 @@ persons:
     en: Mark_Zuckerberg
   aliases:
   - mark zuckerberg
-  - the zuck
-  - the zucc
   wikidata: Q36215
   source_check: wikidata+draft
 - person_id: jeff_bezos
@@ -76,8 +74,6 @@ persons:
     en: Jeff_Bezos
   aliases:
   - jeff bezos
-  - jeffrey jorgensen
-  - jeff jorgensen
   wikidata: Q312556
   source_check: draft, differs from wikidata
 - person_id: jeff_bezos
@@ -91,8 +87,6 @@ persons:
     en: Jeff_Bezos
   aliases:
   - jeff bezos
-  - jeffrey jorgensen
-  - jeff jorgensen
   wikidata: Q312556
   source_check: draft, not in wikidata
   note: executive chair
@@ -121,7 +115,6 @@ persons:
     en: Tim_Cook
   aliases:
   - tim cook
-  - tim apple
   wikidata: Q265852
   source_check: draft, differs from wikidata
 - person_id: steve_ballmer
@@ -165,9 +158,9 @@ persons:
   - larry page
   - lawrence page
   - lawrence e. page
-  - lawrence edward "larry" page
   - lawrence edward larry page
   - larry e. page
+  - l. e. page
   wikidata: Q4934
   source_check: draft, differs from wikidata
   note: Google CEO, then Alphabet CEO from 2015-10-02
@@ -184,9 +177,9 @@ persons:
   - larry page
   - lawrence page
   - lawrence e. page
-  - lawrence edward "larry" page
   - lawrence edward larry page
   - larry e. page
+  - l. e. page
   wikidata: Q4934
   source_check: draft, not in wikidata
   note: board member, controlling shareholder
@@ -360,7 +353,6 @@ persons:
   aliases:
   - jamie dimon
   - james dimon
-  - james "jamie" dimon
   wikidata: Q922169
   source_check: draft, differs from wikidata
 - person_id: larry_ellison
@@ -377,7 +369,6 @@ persons:
   - lawrence joseph ellison
   - lawrence ellison
   - lawrence j. ellison
-  - lawrence joseph "larry" ellison
   - larry j ellison
   wikidata: Q92759
   source_check: draft, not in wikidata
@@ -395,7 +386,6 @@ persons:
   - lawrence joseph ellison
   - lawrence ellison
   - lawrence j. ellison
-  - lawrence joseph "larry" ellison
   - larry j ellison
   wikidata: Q92759
   source_check: draft, differs from wikidata
@@ -531,7 +521,6 @@ persons:
   - lisa su
   - lisa t. su
   - lisa tzwu-fang su
-  - dr. lisa su
   wikidata: Q18207172
   source_check: wikidata+draft
 - person_id: rory_read
@@ -577,7 +566,6 @@ persons:
   aliases:
   - bob iger
   - robert a. iger
-  - robert alan "bob" iger
   - robert alan iger
   wikidata: Q532423
   source_check: draft, differs from wikidata
@@ -593,7 +581,6 @@ persons:
   aliases:
   - bob iger
   - robert a. iger
-  - robert alan "bob" iger
   - robert alan iger
   wikidata: Q532423
   source_check: draft, not in wikidata
@@ -610,7 +597,6 @@ persons:
   aliases:
   - bob iger
   - robert a. iger
-  - robert alan "bob" iger
   - robert alan iger
   wikidata: Q532423
   source_check: draft, differs from wikidata
@@ -995,7 +981,6 @@ persons:
     en: David_M._Solomon
   aliases:
   - david m. solomon
-  - dj d-sol
   - david solomon
   wikidata: Q29641838
   source_check: wikidata+draft
@@ -1107,8 +1092,6 @@ persons:
   aliases:
   - carlos ghosn
   - carlos ghosn dit bichara
-  - kārlūs ghuṣn
-  - karlus ghusn
   wikidata: Q356719
   source_check: draft, not in wikidata
   note: arrested 2018-11-19
@@ -1139,7 +1122,6 @@ persons:
     en: Clotilde_Delbos
   aliases:
   - clotilde delbos
-  - clotilde fricker
   wikidata: Q48441071
   source_check: draft, not in wikidata
   note: interim
@@ -1279,7 +1261,6 @@ persons:
     de: Herbert_Diess
   aliases:
   - herbert diess
-  - dr. herbert diess
   wikidata: Q19285388
   source_check: wikidata+draft
   note: ousted
@@ -1384,10 +1365,10 @@ persons:
   aliases:
   - lars rebien sørensen
   - lars rebien srensen
-  - lars rebien sorensen
   - lars r sørensen
   - lars r srensen
   - lars r. sørensen
+  - lars r. srensen
   wikidata: Q12323903
   source_check: wikidata+draft
 - person_id: lars_fruergaard_jorgensen
@@ -1403,7 +1384,6 @@ persons:
   aliases:
   - lars fruergaard jørgensen
   - lars fruergaard jrgensen
-  - lars fruergaard jorgensen
   wikidata: Q28858458
   source_check: draft, differs from wikidata
   birth_date_precision: month
@@ -1435,7 +1415,6 @@ persons:
   aliases:
   - bob dudley
   - robert warren dudley
-  - robert warren "bob" dudley
   - robert dudley
   wikidata: Q421864
   source_check: wikidata+draft
@@ -1578,10 +1557,7 @@ persons:
     fr: Thomas_Enders
   aliases:
   - tom enders
-  - dr. thomas enders
-  - dr. tom enders
   - thomas enders
-  - major tom
   wikidata: Q95307
   source_check: wikidata+draft
 - person_id: guillaume_faury
@@ -1855,9 +1831,7 @@ persons:
     en: Alfred_F._Kelly_Jr.
   aliases:
   - alfred f. kelly jr.
-  - alfred f. kelly jr
   - alfred kelly, jr.
-  - alfred f. kelly
   wikidata: Q104784751
   source_check: draft, differs from wikidata
 - person_id: ryan_mcinerney
@@ -1961,7 +1935,6 @@ persons:
   aliases:
   - indra nooyi
   - indra krishnamurthy nooyi
-  - indra krishnamurthy
   - indra k nooyi
   - indra k. nooyi
   wikidata: Q264913
@@ -2109,8 +2082,6 @@ persons:
     de: Joe_Kaeser
   aliases:
   - joe kaeser
-  - josef käser
-  - josef kaser
   wikidata: Q103859
   source_check: draft, not in wikidata
 - person_id: roland_busch
@@ -2167,7 +2138,6 @@ persons:
     fr: Jean-Pascal_Tricoire
   aliases:
   - jean-pascal tricoire
-  - mr jean-pascal tricoire
   wikidata: Q3168302
   source_check: draft, differs from wikidata
 - person_id: peter_herweck
