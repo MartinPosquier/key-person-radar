@@ -10,8 +10,8 @@ yearly attention ratios from the previous calendar year.
 Families (§9.2):
   A intensity    z_wiki, z_news, log_views, log_articles, peak_days, local_en_ratio
   B tone         tone_rel, tone_neg_share, tone_std, finbert_net, tone_neg, tone_pos
-  C person       role_*, founder, tenure_years, attention_share, views_ratio_1y
-  D specificity  z_company, z_gap
+  C person       role_*, founder, ceo_age, tenure_years, attention_share, views_ratio
+  D specificity  z_company, specificity
   E market       log_mcap, vol_20d, car_m5_m1, vix, mkt_ret_j0, region_*, sector_*
   interactions   tone_x_attention, tone_x_founder
 
@@ -43,8 +43,9 @@ FAMILIES = {
                     "local_en_ratio"],
     "B_tone": ["tone_rel", "tone_neg_share", "tone_std", "finbert_net", "tone_neg",
                "tone_pos"],
-    "C_person": ["role_*", "founder", "tenure_years", "attention_share", "views_ratio_1y"],
-    "D_specificity": ["z_company", "z_gap"],
+    "C_person": ["role_*", "founder", "ceo_age", "tenure_years", "attention_share",
+                 "views_ratio"],
+    "D_specificity": ["z_company", "specificity"],
     "E_market": ["log_mcap", "vol_20d", "car_m5_m1", "vix", "mkt_ret_j0", "region_*",
                  "sector_*"],
     "interactions": ["tone_x_attention", "tone_x_founder"],
@@ -146,8 +147,13 @@ def _active_mandate(mandates: pd.DataFrame, person_id: str, company_id: str, dat
     active = m[(m["start"] <= date) & (m["end"].isna() | (m["end"] >= date))]
     pick = active if len(active) else m
     if pick.empty:
-        return {"role": "other", "founder": False, "start": pd.NaT}
+        return {"role": "other", "founder": False, "start": pd.NaT, "birth_date": pd.NaT}
     return pick.sort_values("start").iloc[-1].to_dict()
+
+
+def _years_between(start, end) -> float:
+    """Years from `start` to `end` (NaN when `start` is unknown): age, tenure."""
+    return (end - start).days / 365.25 if pd.notna(start) else np.nan
 
 
 # ---- main computation -----------------------------------------------------------------------
@@ -214,14 +220,14 @@ def build_features(
             # C. person
             "role": mandate["role"],
             "founder": float(bool(mandate["founder"])),
-            "tenure_years": (j0 - mandate["start"]).days / 365.25
-            if pd.notna(mandate["start"]) else np.nan,
+            "ceo_age": _years_between(mandate.get("birth_date"), j0),
+            "tenure_years": _years_between(mandate["start"], j0),
             "attention_share": float(trends.get((pid, j0.year - 1), np.nan)),
-            "views_ratio_1y": _window_mean(views, d, p["ratio_window_days"]) / company_mean
+            "views_ratio": _window_mean(views, d, p["ratio_window_days"]) / company_mean
             if company_mean > 0 else np.nan,
             # D. specificity: does the shock really concern the person?
             "z_company": zc,
-            "z_gap": e.z_wiki - zc,
+            "specificity": e.z_wiki - zc,
             # E. market context
             "log_mcap": np.log(last_cap.iloc[0]) if len(last_cap) else np.nan,
             "vol_20d": _before(ret, j0, p["vol_window"]).std(),

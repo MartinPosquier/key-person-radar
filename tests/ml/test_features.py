@@ -78,6 +78,17 @@ def test_person_features(feats, tables):
     assert row["tone_x_founder"] == pytest.approx(ev.tone_rel)
 
 
+def test_age_and_tenure_match_the_reference_fixture(feats, monkeypatch_module):
+    """The frozen features fixture holds reference ceo_age and tenure_years values."""
+    from kpr.utils.io import read_table
+
+    ref = read_table("features").set_index("event_id")
+    mine = feats.set_index("event_id").loc[ref.index]
+    np.testing.assert_allclose(mine["tenure_years"], ref["tenure_years"])
+    np.testing.assert_allclose(mine["ceo_age"], ref["ceo_age"])  # NaN where birth date unknown
+    assert mine["ceo_age"].isna().any() and mine["ceo_age"].notna().any()
+
+
 def test_attention_share_uses_previous_year_only(feats, tables):
     ev = tables["events"].set_index("event_id")
     trends = tables["trends_ratio"].set_index(["person_id", "year"])["ratio_person_company"]

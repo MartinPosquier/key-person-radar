@@ -14,10 +14,14 @@ peak duration = consecutive days up to and including the shock day with z_wiki >
 after the shock would leak the reaction window). A test scrambles every input after J0 and
 checks that the features of the event do not move.
 Specificity (family D): z_company is recomputed from the company page's views with the
-§7.1 window (60 days, 5-day gap, read from quant.yaml), and z_gap = z_wiki - z_company.
+§7.1 window (60 days, 5-day gap, read from quant.yaml), and specificity = z_wiki - z_company.
 Why: dossier §9.2; one-hot on fixed lists uses no data, so it is leak-free and lets every
 model read the table directly.
 Alternatives considered: the "share of the day's company articles that cite the person"
 (§9.2, family D) is not built: no table of the frozen contracts counts company articles.
 It can be added if the data session ever produces company-level GDELT counts.
 Peak duration over the whole cluster (rejected: it uses days after J0).
+Update (after the mandates contract gained `birth_date`): family C adds `ceo_age` = years
+from birth date to J0 (NaN when the birth date is unknown; models impute it inside the
+fold). Column names follow docs/final/03: `views_ratio` (person/company views, past year)
+and `specificity` (z_wiki - z_company).
