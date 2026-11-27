@@ -1,7 +1,7 @@
 # Status: ml
 Updated: 2026-11-27
-Current: not started
-Done: none
-Blocked: waiting for chore/bootstrap to be merged
-Needs from others: none
-Next: first task of PARALLEL_SESSIONS.md §7 for this session
+Current: M2 features.py (branch ml/features), PR open, tests passing on fixtures
+Done: M1 (PR #2 open)
+Blocked: branches are based on chore/bootstrap (PR #1), not yet merged into main
+Needs from others: data, wiki_views page_id convention (inbox note 2026-11-27-ml-wiki-page-ids)
+Next: M3 baselines and time-series CV harness
