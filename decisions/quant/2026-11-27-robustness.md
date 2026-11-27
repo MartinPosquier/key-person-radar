@@ -1,0 +1,6 @@
+Date: 2026-11-27
+Session: quant
+Decision: the robustness runner (Q9) re-runs the full events pipeline for each event-level variant of §11.4 and reports, per variant, events, kept events, mean CAR by sign and the Spearman correlation of the person ranking with the reference; a variant with Spearman < 0.5 is flagged as upsetting the ranking
+Variants: z_wiki 2.5 and 4; target window [0,1], [0,5], [-1,1] (the `car_0_2` column carries the variant window); market-adjusted model (no history requirement, since nothing is estimated); Fama-French 3 (skipped until the ff_factors contract is merged); earnings filter 0 and 2 sessions and no filter (`earnings_window_sessions = -1`).
+Person score: pluggable. Until M10 (scores) is merged, the proxy is the per-person OLS slope of CAR[0,2] on relative tone (at least 5 kept train + validation events), which is the event-level core of S; `mean_abs_car` is offered as a second proxy. The score-level variants of §11.4 (tone source, score window, person selection) are run with the ml scoring once M10 exists.
+Why: §11.4 asks for one table of rank correlations and for flagging variants that upset the ranking; 0.5 is a conventional "moderate" rank-correlation threshold and is a named constant (UPSET_SPEARMAN).
