@@ -272,12 +272,17 @@ def build_events(
     *,
     universe: Mapping[str, Company] | None = None,
     params: Mapping | None = None,
+    factors_for=None,
 ) -> pd.DataFrame:
     """Detected shocks with sign, J0, CARs and exclusion flags (dossier §7.1-7.5).
 
     Returns the columns of the frozen `events` table except is_natural_experiment and split
     (added by ``finalize``), plus diagnostics: n_peak_days, n_est, beta, z_company,
     max_abs_market.
+
+    Robustness knobs (§11.4) read from `params["returns"]`: `car_window` (window of the
+    car_0_2 column, default [0, 2]) and the optional `model` ("market", "market_adjusted" or
+    "ff3"; "ff3" needs `factors_for(company_id)`, see ``returns.compute_cars``).
     """
     params = params or load_params()
     flt = params["filters"]
@@ -298,10 +303,15 @@ def build_events(
 
     has_j0 = ev["j0"].notna()
     mapping = {c: markets.index_of(c) for c in ev["company_id"].unique()}
+    ret_params = params["returns"]
+    model = ret_params.get("model", "market")
+    # The target column keeps its name; robustness runs move its window (§11.4).
+    windows = dict(CAR_WINDOWS, car_0_2=tuple(ret_params["car_window"]))
     cars = R.compute_cars(
         ev.loc[has_j0, ["event_id", "company_id", "j0"]], prices, market, mapping,
-        windows=CAR_WINDOWS, estimation_window=tuple(params["returns"]["estimation_window"]),
-        sessions_for=markets.sessions,
+        model=model, windows=windows,
+        estimation_window=tuple(ret_params["estimation_window"]),
+        sessions_for=markets.sessions, factors_for=factors_for,
     )
     ev = ev.merge(cars[["event_id", *CAR_WINDOWS, "beta", "n_est"]], on="event_id", how="left")
     ev["n_est"] = ev["n_est"].fillna(0).astype(int)
@@ -310,7 +320,8 @@ def build_events(
     car_lo, car_hi = params["returns"]["car_window"]
     ev["max_abs_market"] = _max_abs_market(ev, markets, car_lo, car_hi).to_numpy()
 
-    short = ev["n_est"] < flt["min_estimation_obs"]
+    # The market-adjusted model estimates nothing, so it has no history requirement.
+    short = (ev["n_est"] < flt["min_estimation_obs"]) & (model != "market_adjusted")
     reasons = pd.DataFrame({
         "missing_returns": ev["car_0_2"].isna() & ~short,
         "short_history": short,
