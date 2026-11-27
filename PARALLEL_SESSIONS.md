@@ -103,11 +103,14 @@ A session edits only what it owns. "Frozen" means: changed only through a contra
 | `app/**`, `README.md` | ml |
 | `config/params/ml.yaml`, `config/score_scale.yaml` | ml |
 | `requirements/ml.txt`, `requirements/nlp.txt`, `tests/ml/**`, `notebooks/03_*`, `notebooks/04_*`, `scripts/ml_*`, `decisions/ml/**` | ml |
+| `docs/final/01_*`, `docs/final/numbers/data.json` (week 4 only) | data |
+| `docs/final/02_*`, `docs/final/numbers/quant.json` (week 4 only) | quant |
+| `docs/final/03_*`, `docs/final/numbers/ml.json` (week 4 only) | ml |
 | `coordination/status/<s>.md`, `coordination/inbox/<s>/**` (others may only **add** files there) | session `<s>` |
 | `src/kpr/schemas.py`, `src/kpr/utils/io.py`, `src/kpr/utils/logging.py`, `src/kpr/cli.py` | frozen |
 | `pyproject.toml`, `requirements.txt`, `requirements/base.txt`, `requirements/dev.txt` | frozen |
 | `.github/**`, `.gitignore`, `.env.example`, `scripts/make_fixtures.py`, `tests/fixtures/**`, `tests/test_schemas.py` | frozen |
-| `CLAUDE.md`, `PARALLEL_SESSIONS.md` | user only |
+| `CLAUDE.md`, `PARALLEL_SESSIONS.md`, `docs/final/README.md` | user only |
 
 **Running a module:** each module is runnable as `python -m kpr.<pkg>.<module>`, so a session
 never needs to edit `cli.py` to try its code.
@@ -184,7 +187,7 @@ Column lists follow dossier §6.3, §7.7 and §10.6. Keys in bold.
 | gdelt_daily | data | **person_id, date**, n_articles, tone_mean, tone_neg_share, tone_std |
 | trends_ratio | data | **person_id, year**, ratio_person_company |
 | earnings | data | **company_id, date**, quarter, source |
-| mandates | data | **person_id, company_id, role, start**, end, founder |
+| mandates | data | **person_id, company_id, role, start**, end, founder, birth_date |
 | headlines | data | **person_id, date, headline_id**, title, source |
 | panel | data | **person_id, date**, company_id, views, z_wiki, n_articles, z_news, tone_rel, ret, earnings_window, vix |
 | events | quant | **event_id**, person_id, company_id, date_utc, j0, z_wiki, z_news, n_articles, tone_rel, tone_neg_share, sign, car_0_2, car_m5_m1, car_0_1, car_0_5, excluded, exclusion_reason, is_natural_experiment, split |
@@ -212,7 +215,7 @@ Each task is one branch and one PR. "Real data" steps wait until the upstream PR
 | # | Week | Task | Dossier | Needs |
 | --- | --- | --- | --- | --- |
 | D1 | S1 | `universe.yaml`: 60 companies, every ticker checked on yfinance | §4.2 | none |
-| D2 | S1 | Wikidata query for mandates, then draft `persons.yaml` and a list of entries for the user to check by hand (in `coordination/inbox/user/`) | §4.4, §5.6 | D1 |
+| D2 | S1 | Wikidata query for mandates and birth dates (P569), then draft `persons.yaml` and a list of entries for the user to check by hand (in `coordination/inbox/user/`) | §4.4, §5.6 | D1 |
 | D3 | S1 | Collector for prices, indices and VIX, 2014–2025, cached | §5.4 | D1 |
 | D4 | S1 | Wikipedia pageviews collector, English + local language, user agent from `.env` | §5.2 | D2 |
 | D5 | S1 | GDELT dry run on 1 month, extrapolated to 10 years. Rule: estimate under 50 % of the free quota → GDELT, otherwise FNSPID. Record the decision | §5.3 | D2 |
@@ -223,7 +226,7 @@ Each task is one branch and one PR. "Real data" steps wait until the upstream PR
 | D10 | S2 | `clean.py` and automatic quality checks | §6.4, §6.7 | D8 |
 | D11 | S2 | `panel.py`, written to `processed/panel/` | §6.6 | D10, Q1 merged |
 | D12 | S3 | `headlines` table for shock days and their neighbours | §8.3 | Q5 merged |
-| D13 | S4 | Data documentation (sources, dates, limits) as a markdown file for the report | §5 | none |
+| D13 | S4 | Fill `docs/final/01_data_collection_and_sorting.md` and write `scripts/data_final_numbers.py` → `docs/final/numbers/data.json`. Keep a selection log and a cleaning log from D10–D11 so the counts exist | §4, §5, §6 | D11 |
 
 ### 7.2 Session quant
 
@@ -241,13 +244,14 @@ Each task is one branch and one PR. "Real data" steps wait until the upstream PR
 | Q10 | S4 | Natural experiment validation: ex ante score against real reaction | §11.2 | M10 merged |
 | Q11 | S4 | Tests of H2 to H5 | §11.5 | M10 merged |
 | Q12 | S4 | Nvidia 2026 case study (net-of-market CAR, competing news) | §11.6 | M10 merged |
+| Q13 | S4 | Fill `docs/final/02_events_and_splits.md` and write `scripts/quant_final_numbers.py` → `docs/final/numbers/quant.json` (filtering funnel, split sizes, comparability of the sets) | §7, §9.5 | Q10 |
 
 ### 7.3 Session ml
 
 | # | Week | Task | Dossier | Needs |
 | --- | --- | --- | --- | --- |
 | M1 | S1 | Streamlit multipage skeleton (all pages of §12.2) reading fixture-shaped files from `app/data/` | §12 | none |
-| M2 | S1 | `features.py`: the 5 feature families, no look-ahead, on fixture events | §9.2 | fixtures |
+| M2 | S1 | `features.py`: the 5 feature families, including `ceo_age` and `tenure_years` from `mandates`, no look-ahead, on fixture events | §9.2 | fixtures |
 | M3 | S1 | Baselines B0–B2 and the time-series CV harness (expanding window, gap) | §9.3, §9.5 | fixtures |
 | M4 | S2 | Metrics module: MAE, RMSE, out-of-sample R², Spearman, PR-AUC, bootstrap confidence intervals | §9.7 | none |
 | M5 | S2 | `tone.py`: FinBERT inference on headlines, batched, cached | §8.3 | fixtures; real: D12 |
@@ -259,6 +263,7 @@ Each task is one branch and one PR. "Real data" steps wait until the upstream PR
 | M11 | S3 | SHAP and analysis of the 20 largest errors | §9.8, §9.9 | M7 |
 | M12 | S4 | Final test-set evaluation, run **once**, only after the user says go in `coordination/inbox/ml/` | §9.5 | M10 |
 | M13 | S4 | App on real scores, `export-app`, honest-display rules, deployment notes | §12 | M10 |
+| M14 | S4 | Fill `docs/final/03_feature_interpretation.md`, write `scripts/ml_final_numbers.py` → `docs/final/numbers/ml.json`, and make the app's Methodology page render `docs/final/01–03` with placeholders filled from `numbers/*.json` | §9.6, §9.8, §12 | M10, D13, Q13 |
 
 ---
 
@@ -344,7 +349,7 @@ outside the dossier, contract requests, the go for the final test-set run.
 | S1 | D1–D7, all independent of the others | Q1–Q3 on fixtures | M1–M3 on fixtures |
 | S2 | D8–D11 → panel merged mid-week | Q4–Q7, switch to real panel once D11 is merged | M4–M6 |
 | S3 | D12 headlines once Q5 is merged | Q8–Q9 | M7–M11 on real events once Q5 and Q6 are merged |
-| S4 | D13 | Q10–Q12 once M10 is merged | M12–M13 |
+| S4 | D13 (`docs/final/01`) | Q10–Q12 once M10 is merged, then Q13 (`docs/final/02`) | M12–M13, then M14 (`docs/final/03` and Methodology page) |
 
 The critical path runs D11 → Q5 → M7/M8 → M10 → Q10–Q12. If one of these PRs is open,
 reviewing and merging it comes first.

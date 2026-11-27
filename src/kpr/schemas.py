@@ -64,8 +64,8 @@ TABLES: dict[str, Table] = {
         }, nullable=["quarter"]),
         _t("mandates", "data", "interim", ["person_id", "company_id", "role", "start"], {
             "person_id": STRING, "company_id": STRING, "role": STRING, "start": DATE,
-            "end": DATE, "founder": BOOL,
-        }, nullable=["end"]),
+            "end": DATE, "founder": BOOL, "birth_date": DATE,
+        }, nullable=["end", "birth_date"]),
         _t("headlines", "data", "interim", ["person_id", "date", "headline_id"], {
             "person_id": STRING, "date": DATE, "headline_id": STRING, "title": STRING,
             "source": STRING,

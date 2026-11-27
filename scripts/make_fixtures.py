@@ -30,6 +30,10 @@ PERSONS = {
     "p_delta": ("FAKE3", "CEO", False, 0.3, "2010-01-01", "2021-06-30"),
     "p_eps": ("FAKE3", "CEO", False, 1.0, "2021-07-01", None),
 }
+BIRTH_DATES = {  # one missing on purpose: real data will have gaps
+    "p_alpha": "1963-02-17", "p_beta": "1975-09-01", "p_gamma": "1968-05-30",
+    "p_delta": "1955-11-12", "p_eps": None,
+}
 SHOCKS_PER_PERSON = 8
 
 
@@ -132,7 +136,8 @@ def main() -> None:
 
     mandates = pd.DataFrame([
         {"person_id": pid, "company_id": cid, "role": role, "start": pd.Timestamp(start),
-         "end": pd.Timestamp(end) if end else pd.NaT, "founder": founder}
+         "end": pd.Timestamp(end) if end else pd.NaT, "founder": founder,
+         "birth_date": pd.Timestamp(BIRTH_DATES[pid]) if BIRTH_DATES[pid] else pd.NaT}
         for pid, (cid, role, founder, _s, start, end) in PERSONS.items()
     ])
 
@@ -202,6 +207,14 @@ def main() -> None:
         "event_id": events.event_id, "z_wiki": events.z_wiki, "z_news": events.z_news,
         "tone_neg": np.maximum(0, -events.tone_rel), "tone_pos": np.maximum(0, events.tone_rel),
         "founder": events.person_id.map(lambda p: float(PERSONS[p][2])),
+        "tenure_years": [
+            (d - pd.Timestamp(PERSONS[p][4])).days / 365.25
+            for p, d in zip(events.person_id, events.j0, strict=True)
+        ],
+        "ceo_age": [
+            (d - pd.Timestamp(BIRTH_DATES[p])).days / 365.25 if BIRTH_DATES[p] else np.nan
+            for p, d in zip(events.person_id, events.j0, strict=True)
+        ],
     })
 
     score_rows = []
