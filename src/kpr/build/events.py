@@ -19,7 +19,8 @@ Pipeline (``build_events``):
    index data to compute the target CAR).
 
 ``finalize`` (Q5) flags natural experiments and their 10-day neighbours as reserved
-(§11.2), assigns the period split (§9.5) and validates the frozen `events` schema (§7.7).
+(§11.2), assigns the split with its 10-session boundary gap (§9.5, exclusion reason
+``split_gap``, see ``kpr.build.splits``) and validates the frozen `events` schema (§7.7).
 ``python -m kpr.build.events`` writes the shared table (real data only; ``--out`` for
 fixtures and robustness runs with ``--set key=value``).
 
@@ -359,8 +360,7 @@ def finalize(events: pd.DataFrame, candidates: pd.DataFrame,
     params = params or load_params()
     ev = events.copy()
     ev["is_natural_experiment"] = flag_natural_experiments(ev, candidates).to_numpy()
-    when = ev["j0"].fillna(ev["date_utc"])
-    ev["split"] = splits.period_split(when, params["splits"], ev["is_natural_experiment"])
+    ev = splits.assign_splits(ev, params["splits"], params["splits"]["gap_sessions"])
     ev["n_articles"] = ev["n_articles"].astype("int64")
     ev["excluded"] = ev["excluded"].astype(bool)
     ev = ev[EVENT_COLUMNS].sort_values(["date_utc", "person_id"]).reset_index(drop=True)
