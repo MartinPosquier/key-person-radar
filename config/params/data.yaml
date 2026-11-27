@@ -16,3 +16,8 @@ quality:                                            # dossier §6.7
   max_missing_share_views: 0.05
   ret_min: -0.8
   ret_max: 2.0
+cleaning:                                           # dossier §6.4, task D10
+  flag_abs_return: 0.40                             # daily moves listed for a manual look
+  spike_z: 5.0                                      # robust z of log views = suspected robot spike
+  confirm_z: 2.0                                    # ...unless GDELT or the local page moves too
+  spike_window: 60                                  # days of history for the robust z-score
