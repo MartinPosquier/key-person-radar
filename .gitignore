@@ -4,8 +4,8 @@ __pycache__/
 *.egg-info/
 .venv/
 venv/
-build/
-dist/
+/build/
+/dist/
 .pytest_cache/
 .ruff_cache/
 
@@ -14,7 +14,7 @@ dist/
 .claude/settings.local.json
 
 # Data never goes into git (it lives in KPR_DATA_DIR)
-data/
+/data/
 *.parquet
 *.csv.gz
 !tests/fixtures/*.parquet

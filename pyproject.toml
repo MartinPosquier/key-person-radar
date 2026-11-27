@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kpr"
+version = "0.1.0"
+description = "Key-Person Risk Radar: how much of a company is one person?"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+# Dependencies live in requirements/*.txt (one file per session) to avoid merge conflicts.
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

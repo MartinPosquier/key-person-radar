@@ -1,0 +1,12 @@
+# Owner: data session (task D2). One entry per mandate; a person may have several.
+# - person_id: jensen_huang
+#   company_id: NVDA
+#   role: CEO                   # CEO | CFO | chair | founder | other
+#   founder: true
+#   birth_date: 1963-02-17      # Wikidata P569; null if unknown. Used for the age feature
+#   start: 1993-04-05           # check every date (Wikidata + manual)
+#   end: null
+#   wiki_pages: {en: Jensen_Huang}
+#   aliases: ["jensen huang", "jen-hsun huang"]
+#   source_check: wikidata+manual
+persons: []

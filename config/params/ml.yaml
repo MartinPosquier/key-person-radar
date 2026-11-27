@@ -1,0 +1,24 @@
+# Owner: ml session. Defaults from the dossier.
+seed: 42
+cv:                                                 # dossier §9.5
+  scheme: expanding
+  first_train_end_year: 2017
+  gap_sessions: 10
+standard_shock:                                     # dossier §3.1
+  z_wiki: 4.0
+  tone_quantile_negative: 0.10
+  tone_quantile_positive: 0.90
+scores:                                             # dossier §3.3-3.5, §10
+  window_years: 3
+  shrinkage_k: 10
+  smoothing_omega: 0.4
+  max_yearly_change: 2.0
+  agreement_min_spearman: 0.6
+  bootstrap_samples: 200
+  value_bootstrap_samples: 500
+selection:                                          # dossier §9.6
+  stability_bootstrap: 100
+  stability_threshold: 0.8
+finbert:
+  model: ProsusAI/finbert
+  batch_size: 32

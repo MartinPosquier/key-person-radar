@@ -1,0 +1,16 @@
+# Owner: data session. Defaults from the dossier.
+period: {start: "2014-01-01", end: "2025-12-31"}   # one extra year before 2015 for beta estimation
+selection:                                          # dossier §4.4
+  min_trends_ratio: 0.10
+  min_median_daily_views: 200
+  min_usable_shocks: 8
+wikipedia:
+  agent: user
+  access: all-access
+gdelt:
+  min_articles_for_tone: 3
+  max_share_of_free_quota: 0.5                      # decision rule of task D5
+quality:                                            # dossier §6.7
+  max_missing_share_views: 0.05
+  ret_min: -0.8
+  ret_max: 2.0
