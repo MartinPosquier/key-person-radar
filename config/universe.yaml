@@ -11,6 +11,7 @@
 #   wiki_pages: {en: Nvidia}    # canonical titles; local language added for EU companies
 #   trends_entity: "Nvidia"
 #   group: media                # media | control
+#   former_tickers: [SQ]        # optional: old tickers, used for share counts reported before a change
 #   notes: free text            # optional
 companies:
   # ---- media group, US listings -----------------------------------------------------------
@@ -224,6 +225,7 @@ companies:
   - company_id: XYZ
     name: Block
     ticker: XYZ
+    former_tickers: [SQ]
     region: US
     exchange: XNYS
     market_index: "^GSPC"
