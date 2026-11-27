@@ -22,3 +22,9 @@ selection:                                          # dossier §9.6
 finbert:
   model: ProsusAI/finbert
   batch_size: 32
+features:                                           # dossier §9.2, task M2
+  peak_z: 2.0                                       # a day counts in the peak while z_wiki > 2
+  vol_window: 20                                    # sessions before J0 for the volatility
+  ratio_window_days: 365                            # person/company views ratio, past year
+  roles: [CEO, CFO, chair, founder, other]          # one-hot categories (persons.yaml)
+  regions: [US, EU]
