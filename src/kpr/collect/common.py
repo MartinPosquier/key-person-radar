@@ -133,7 +133,11 @@ def cached_get_json(
                 time.sleep(pause)
             return resp.status_code, payload
         if resp.status_code in (429, 500, 502, 503, 504) and attempt < retries:
-            time.sleep(delay)
+            wait = delay
+            retry_after = resp.headers.get("Retry-After", "")
+            if retry_after.isdigit():
+                wait = max(wait, min(float(retry_after), 300.0))
+            time.sleep(wait)
             delay *= 2
             continue
         resp.raise_for_status()

@@ -8,8 +8,11 @@ Owner: data session. Task D4 in PARALLEL_SESSIONS.md §7. Dossier §5.2, §4.5, 
 - Agent `user`, access `all-access`, daily, 2015-07-01 (start of the API) to the end of the
   study period.
 - Renamed pages: views made under an old title stay on that title, which is now a redirect.
-  Each page's views are therefore the sum over the canonical title and all its redirects
-  (dossier §4.5: "suivre les redirections et les renommages de page").
+  Each page's views are therefore the sum over the canonical title and its former titles
+  (dossier §4.5: "suivre les redirections et les renommages de page"). Former titles are the
+  English redirects tagged "R from move" (category "Redirects from moves"); other redirects
+  (spelling variants, typos) carry little traffic and would multiply the requests by 15
+  under Wikimedia's rate limits.
 - A day without any data stays missing (never zero, dossier §6.4). `views_local` is 0 when the
   page has no local-language version, so that views_total = views_en + views_local.
 - Raw responses are cached in raw/wikipedia_pageviews/ and raw/wikipedia_redirects/; an
@@ -87,6 +90,30 @@ def fetch_redirects(session, lang: str, titles: list[str]) -> dict[str, list[str
     return out
 
 
+MOVED_CATEGORY = {"en": "Category:Redirects from moves"}
+
+
+def keep_moved(session, lang: str, redirects: list[str]) -> list[str]:
+    """Redirects that are former titles of the page (tagged as redirects from moves)."""
+    category = MOVED_CATEGORY.get(lang)
+    if not category or not redirects:
+        return []
+    url = f"https://{lang}.wikipedia.org/w/api.php"
+    kept: list[str] = []
+    for i in range(0, len(redirects), 50):
+        chunk = redirects[i:i + 50]
+        params = {"action": "query", "format": "json", "formatversion": 2,
+                  "titles": "|".join(t.replace("_", " ") for t in chunk), "prop": "categories",
+                  "clcategories": category, "cllimit": "max"}
+        _s, payload = cached_get_json(session, "wikipedia_redirects",
+                                      f"moved_{lang}_{cache_key(chunk)}", url, params,
+                                      pause=1.0, retries=6)
+        for p in payload.get("query", {}).get("pages", []):
+            if p.get("categories"):
+                kept.append(p["title"].replace(" ", "_"))
+    return kept
+
+
 def fetch_views(session, lang: str, title: str, start: str, end: str) -> pd.Series:
     """Daily user views of one title; empty Series if the API has no data (404)."""
     url = (f"{REST}/{lang}.wikipedia/all-access/user/{quote(title, safe='')}/daily/"
@@ -138,7 +165,7 @@ def build_table(pages: pd.DataFrame, views: dict[tuple[str, str], pd.Series],
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="kpr.collect.wiki")
     parser.add_argument("--no-redirects", action="store_true",
-                        help="only the canonical titles (faster, misses renamed pages)")
+                        help="only the canonical titles (misses renamed pages)")
     parser.add_argument("--only", nargs="*", help="limit to these page_ids (no table written)")
     args = parser.parse_args(argv)
 
@@ -152,8 +179,12 @@ def main(argv: list[str] | None = None) -> int:
     if not args.no_redirects:
         for lang, g in pages.groupby("lang"):
             found = fetch_redirects(session, lang, sorted(set(g["title"])))
+            all_redirects = sorted({r for rs in found.values() for r in rs})
+            moved = set(keep_moved(session, lang, all_redirects))
             for t, rs in found.items():
-                redirects[(lang, t)] = rs
+                redirects[(lang, t)] = [r for r in rs if r in moved]
+            log.info("%s: %d redirects, %d former titles kept", lang, len(all_redirects),
+                     len(moved))
 
     views: dict[tuple[str, str], pd.Series] = {}
     n_titles = 0
