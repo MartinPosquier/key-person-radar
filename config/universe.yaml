@@ -1,0 +1,13 @@
+# Owner: data session (task D1). 60 companies of dossier §4.2, every ticker checked on yfinance.
+# One entry per company:
+# - company_id: NVDA            # stable id, used everywhere
+#   name: Nvidia
+#   ticker: NVDA                # yfinance ticker
+#   region: US                  # US | EU
+#   exchange: XNYS              # XNYS | XNAS | XPAR | XETR | XAMS | XLON | XMIL | XSWX | XCSE | XDUB
+#   market_index: "^GSPC"       # S&P 500 for US, STOXX Europe 600 for EU
+#   sector: Semiconductors
+#   wiki_pages: {en: Nvidia}
+#   trends_entity: "Nvidia"
+#   group: media                # media | control
+companies: []

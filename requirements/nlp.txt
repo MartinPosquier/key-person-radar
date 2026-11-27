@@ -1,0 +1,3 @@
+# Owner: ml session. Heavy NLP stack, not installed in CI.
+torch>=2.2
+transformers>=4.40

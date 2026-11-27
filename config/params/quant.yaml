@@ -1,0 +1,28 @@
+# Owner: quant session. Defaults from the dossier.
+attention:                                          # dossier §7.1
+  window_days: 60
+  gap_days: 5
+shocks:                                             # dossier §7.2
+  z_wiki_min: 3.0
+  z_news_min: 2.0
+  min_articles: 3
+  cluster_days: 10
+tone_sign_threshold: 1.0                            # dossier §7.3, in standard deviations
+filters:                                            # dossier §7.4
+  earnings_window_sessions: 1
+  company_dominance_z_gap: 2.0
+  extreme_market_abs_ret: 0.04
+  min_estimation_obs: 120
+returns:                                            # dossier §7.5
+  estimation_window: [-250, -30]
+  car_window: [0, 2]
+  robustness_windows: [[0, 1], [0, 5], [-1, 1]]
+  pre_event_window: [-5, -1]
+splits:                                             # dossier §9.5
+  train: ["2015-01-01", "2021-12-31"]
+  validation: ["2022-01-01", "2023-12-31"]
+  test: ["2024-01-01", "2025-12-31"]
+  gap_sessions: 10
+robustness:                                         # dossier §11.4
+  z_wiki_min: [2.5, 3.0, 4.0]
+  earnings_window_sessions: [0, 1, 2]

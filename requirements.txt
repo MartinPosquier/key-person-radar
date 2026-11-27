@@ -1,0 +1,7 @@
+# Frozen: do not edit. Add dependencies to your session's file in requirements/.
+-r requirements/base.txt
+-r requirements/data.txt
+-r requirements/quant.txt
+-r requirements/ml.txt
+-r requirements/nlp.txt
+-r requirements/dev.txt

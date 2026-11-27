@@ -1,0 +1,4 @@
+# Frozen (shared by every session).
+pytest>=8
+ruff>=0.5
+ipykernel>=6.29

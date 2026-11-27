@@ -1,0 +1,3 @@
+# Owner: quant session.
+scipy>=1.11
+statsmodels>=0.14

@@ -1,0 +1,4 @@
+# Owner: ml session (task M10). Fixed 0-10 thresholds computed once on 2015-2021, then frozen.
+computed: false
+s_minus_thresholds: []
+s_plus_thresholds: []
