@@ -82,6 +82,11 @@ def test_modelling_frame_filters_and_never_gives_test():
     events.loc[3, "car_0_2"] = np.nan
     frame = cv.modelling_frame(events, feats)
     assert len(frame) == 36
+    assert frame.attrs["drop_counts"] == {
+        "events_in": 40, "dropped_other_split": 1, "dropped_excluded": 1,
+        "dropped_natural_experiment": 1, "dropped_missing_car": 1,
+        "dropped_missing_features": 0, "events_kept": 36,
+    }
     assert frame["j0"].is_monotonic_increasing
     with pytest.raises(PermissionError):
         cv.modelling_frame(events, feats, ("train", "test"))

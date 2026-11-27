@@ -22,6 +22,10 @@ import pandas as pd
 import yaml
 from sklearn.base import clone
 
+from kpr.utils.logging import get_logger
+
+log = get_logger(__name__)
+
 CONFIG_DIR = Path(__file__).resolve().parents[3] / "config"
 TARGETS = ("car_signed", "car_abs", "big_move")
 SESSIONS_PER_WINDOW = 3  # CAR[0, 2] spans 3 sessions
@@ -89,19 +93,31 @@ def modelling_frame(events: pd.DataFrame, features: pd.DataFrame,
     """Usable events of the given splits joined to their features, sorted by J0.
 
     Drops excluded events and natural experiments (reserved for validation, §11.2) and
-    events without a CAR[0,2].
+    events without a CAR[0,2]. How many events each step removed is kept in
+    `frame.attrs["drop_counts"]` (CLAUDE.md rule 11: docs/final needs these counts).
     """
     if "test" in splits and not allow_test:
         raise PermissionError("the test split is used once, in task M12 (dossier §9.5)")
-    usable = events[
-        events["split"].isin(splits)
-        & ~events["excluded"].astype(bool)
-        & ~events["is_natural_experiment"].astype(bool)
-        & events["car_0_2"].notna()
+    steps = [
+        ("other_split", events["split"].isin(splits)),
+        ("excluded", ~events["excluded"].astype(bool)),
+        ("natural_experiment", ~events["is_natural_experiment"].astype(bool)),
+        ("missing_car", events["car_0_2"].notna()),
+        ("missing_features", events["event_id"].isin(features["event_id"])),
     ]
-    usable = add_targets(usable, features)
+    keep = pd.Series(True, index=events.index)
+    counts = {"events_in": len(events)}
+    for reason, ok in steps:
+        counts[f"dropped_{reason}"] = int((keep & ~ok).sum())
+        keep &= ok
+    counts["events_kept"] = int(keep.sum())
+    log.info("modelling frame %s: %s", "+".join(splits), counts)
+
+    usable = add_targets(events[keep], features)
     frame = usable.merge(features, on="event_id", how="inner", suffixes=("", "_feat"))
-    return frame.sort_values(["j0", "event_id"]).reset_index(drop=True)
+    frame = frame.sort_values(["j0", "event_id"]).reset_index(drop=True)
+    frame.attrs["drop_counts"] = counts
+    return frame
 
 
 def fit_predict(model, X_train, y_train, X_new, proba: bool = False) -> np.ndarray:
