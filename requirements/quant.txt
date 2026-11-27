@@ -1,3 +1,4 @@
 # Owner: quant session.
 scipy>=1.11
 statsmodels>=0.14
+exchange_calendars>=4.5,<5

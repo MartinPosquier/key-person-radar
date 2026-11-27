@@ -1,0 +1,6 @@
+Date: 2026-11-27
+Session: quant
+Decision: 28 natural-experiment candidates in config/natural_experiments.csv; `date` = UTC day the news first broke (not the effective date of the change); `wanted_by_company` = true when the board decided or announced it (dismissal, planned surprise), false when imposed on the company (arrest, death, illness, regulator action, poaching by another firm, personal resignation)
+Why: dossier §11.2. The date of the news is what the attention peak and J0 follow (§6.5); the effective date often comes weeks later. The `wanted_by_company` flag lets Q10 test both halves: the dossier warns that the market often welcomes board-driven departures, so the ex ante score is compared with |CAR| (magnitude), and the flag allows a split.
+Scope: 25 cases inside the 60-company universe, 3 outside (MCD, CMG, UNH), as §11.2 allows. Two 2014 cases (NE001, NE002) have no end-of-previous-year score and are kept for CAR description only. Events with company news in the window (Boeing 737 MAX, Credit Suisse rescue, COVID market days) stay in the list with a note; the §7.4 filters decide.
+Alternatives considered: only events with a person-only cause (arrest, death, health): too few cases (about 8) for a rank correlation with a bootstrap interval.
