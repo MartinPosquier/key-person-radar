@@ -1,7 +1,7 @@
 # Status: ml
 Updated: 2026-11-27
-Current: not started
-Done: none
-Blocked: waiting for chore/bootstrap to be merged
+Current: M1 Streamlit skeleton (branch ml/app-skeleton), PR open, tests passing on demo data
+Done: none merged yet
+Blocked: branches are based on chore/bootstrap (PR #1), not yet merged into main
 Needs from others: none
-Next: first task of PARALLEL_SESSIONS.md §7 for this session
+Next: M2 features.py on fixture events
