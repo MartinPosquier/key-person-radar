@@ -6,7 +6,7 @@ chairs, designated successors). Dates in the seed are a first draft. For each ma
 script:
 
 - resolves the English Wikipedia title (canonical title, Wikidata QID, local-language page
-  for European companies, English aliases for GDELT matching);
+  for European companies, English aliases for GDELT matching) and the birth date (P569);
 - compares start and end with the Wikidata statements of raw/wikidata/candidates.csv
   (run `python -m kpr.collect.wikidata` first) and records the outcome in `source_check`;
 - lists every mandate that needs a human check, and every Wikidata CEO of the period that
@@ -272,6 +272,29 @@ def _entity(session, qid: str) -> dict:
     }
 
 
+def birth_dates(session, qids: list[str]) -> dict[str, tuple[str, str]]:
+    """{qid: (YYYY-MM-DD, precision)} from Wikidata P569 (date of birth)."""
+    out: dict[str, tuple[str, str]] = {}
+    qids = sorted({q for q in qids if q})
+    for i in range(0, len(qids), 10):  # full claims are large: small batches, slow pace
+        chunk = qids[i:i + 10]
+        params = {"action": "wbgetentities", "format": "json", "ids": "|".join(chunk),
+                  "props": "claims"}
+        _s, payload = cached_get_json(session, "wikidata", "claims_people_" + cache_key(chunk),
+                                      API, params, pause=3.0, retries=6)
+        for qid, ent in payload.get("entities", {}).items():
+            for st in ent.get("claims", {}).get("P569", []):
+                snak = st.get("mainsnak", {})
+                if snak.get("snaktype") != "value" or st.get("rank") == "deprecated":
+                    continue
+                v = snak["datavalue"]["value"]
+                date_ = v["time"].lstrip("+")[:10].replace("-00", "-01")
+                prec = {9: "year", 10: "month", 11: "day"}.get(v.get("precision"), "other")
+                if qid not in out or st.get("rank") == "preferred":
+                    out[qid] = (date_, prec)
+    return out
+
+
 def _ascii(text: str) -> str:
     return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode()
 
@@ -349,6 +372,7 @@ def main(argv: list[str] | None = None) -> int:
     session = http_session()
     people = resolve_people(session, [t for t in seed["enwiki"] if t])
     infos = row_infos(session, seed, people)
+    births = birth_dates(session, [i["qid"] for i in infos.values() if i])
     cmp = compare(seed, cand, infos)
 
     persons, problems = [], []
@@ -368,14 +392,19 @@ def main(argv: list[str] | None = None) -> int:
                     pages[lang] = info["sitelinks"][lang]
             aliases = aliases_for(info["label"] or name, info["aliases"])
         status = cmp.loc[r.Index, "status"]
+        born = births.get(info["qid"]) if info else None
         entry = {
             "person_id": r.person_id, "company_id": r.company_id, "role": r.role,
-            "founder": bool(r.founder), "start": r.start, "end": r.end or None,
+            "founder": bool(r.founder),
+            "birth_date": born[0] if born and born[1] in ("day", "month", "year") else None,
+            "start": r.start, "end": r.end or None,
             "wiki_pages": pages, "aliases": aliases,
             "wikidata": cmp.loc[r.Index, "wd_qid"],
             "source_check": {"agrees": "wikidata+draft", "differs": "draft, differs from wikidata",
                              "not_in_wikidata": "draft, not in wikidata"}[status],
         }
+        if born and born[1] != "day":
+            entry["birth_date_precision"] = born[1]
         if r.co_ceo:
             entry["co_ceo"] = True
         if r.note:
@@ -386,6 +415,8 @@ def main(argv: list[str] | None = None) -> int:
     report = _report(seed, cmp, cand, infos, problems)
     with open(args.inbox, "w", encoding="utf-8") as fh:
         fh.write(report)
+    no_birth = sorted({p["person_id"] for p in persons if not p["birth_date"]})
+    print(f"birth dates: {seed.person_id.nunique() - len(no_birth)} persons; missing: {no_birth}")
     print(f"{len(persons)} mandates, {seed.person_id.nunique()} persons; "
           f"{(cmp.status == 'agrees').sum()} agree with Wikidata, "
           f"{(cmp.status == 'differs').sum()} differ, "

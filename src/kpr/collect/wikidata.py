@@ -159,9 +159,11 @@ def mandates_from_persons(persons: list[dict]) -> pd.DataFrame:
         "start": pd.Timestamp(str(p["start"])),
         "end": pd.Timestamp(str(p["end"])) if p.get("end") else pd.NaT,
         "founder": bool(p.get("founder", False)),
+        "birth_date": pd.Timestamp(str(p["birth_date"])) if p.get("birth_date") else pd.NaT,
     } for p in persons]
     df = pd.DataFrame(rows, columns=["person_id", "company_id", "role", "start", "end",
-                                     "founder"])
+                                     "founder", "birth_date"])
+    df["birth_date"] = pd.to_datetime(df["birth_date"])
     df["start"] = pd.to_datetime(df["start"])
     df["end"] = pd.to_datetime(df["end"])
     return df.sort_values(["person_id", "company_id", "start"]).reset_index(drop=True)
