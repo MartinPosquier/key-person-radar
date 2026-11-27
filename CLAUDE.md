@@ -49,6 +49,9 @@ in full before your first change.
 10. **When blocked by another session's unmerged work,** keep building on the fixtures
     (`tests/fixtures/`), which follow the frozen schemas, and switch to real data once
     upstream is merged.
+11. **`docs/final/` is filled in week 4 only** (tasks D13, Q13, M14). Until then, just make
+    sure your code keeps the counts those pages will need: how many rows each filter or
+    selection step removed, and why (see `docs/final/README.md`).
 
 ## 3. Commands
 
