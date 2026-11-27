@@ -123,6 +123,9 @@ def cached_get_json(
                 payload = resp.json()
             except ValueError:
                 payload = resp.text
+            if isinstance(payload, dict) and "error" in payload and resp.status_code == 200:
+                # MediaWiki APIs report bad requests with HTTP 200: never cache them.
+                raise RuntimeError(f"API error for {resp.url}: {payload['error']}")
             _write_json_atomic(path, {"status": resp.status_code, "url": resp.url,
                                       "fetched": time.strftime("%Y-%m-%dT%H:%M:%S"),
                                       "payload": payload})
