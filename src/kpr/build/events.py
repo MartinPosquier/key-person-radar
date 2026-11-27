@@ -18,6 +18,11 @@ Pipeline (``build_events``):
    ``short_history`` (fewer than 120 estimation sessions), ``missing_returns`` (no price or
    index data to compute the target CAR).
 
+``finalize`` (Q5) flags natural experiments and their 10-day neighbours as reserved
+(§11.2), assigns the period split (§9.5) and validates the frozen `events` schema (§7.7).
+``python -m kpr.build.events`` writes the shared table (real data only; ``--out`` for
+fixtures and robustness runs with ``--set key=value``).
+
 The attention z-score of §7.1 compares log(1 + views) with the 60 days ending 6 days before
 (a 5-day gap): ``attention_z``. The panel already carries z_wiki and z_news (data session);
 ``attention_z`` is used for company pages and for robustness runs.
@@ -25,6 +30,7 @@ The attention z-score of §7.1 compares log(1 + views) with the 60 days ending 6
 
 from __future__ import annotations
 
+import argparse
 import copy
 from collections.abc import Mapping
 from dataclasses import dataclass
@@ -36,8 +42,12 @@ import pandas as pd
 import yaml
 
 from kpr.build import returns as R
+from kpr.build import splits
+from kpr.schemas import TABLES, validate
 from kpr.utils import calendar as cal
+from kpr.utils.io import read_table, use_fixtures, write_table
 from kpr.utils.logging import get_logger
+from kpr.validation import natural_experiments as ne
 
 log = get_logger(__name__)
 
@@ -323,8 +333,90 @@ def build_events(
                "max_abs_market"]]
 
 
+# ---- events table (Q5) ------------------------------------------------------------------------
+
+EVENT_COLUMNS = list(TABLES["events"].columns)
+
+
+def flag_natural_experiments(events: pd.DataFrame, candidates: pd.DataFrame,
+                             days: int = ne.EXCLUSION_DAYS) -> pd.Series:
+    """True for events of a natural-experiment company within `days` days of it (§11.2).
+
+    The natural experiment and its neighbours are kept out of training and calibration,
+    whoever the event is about: a CFO shock two days after the CEO's arrest is contaminated.
+    """
+    out = pd.Series(False, index=events.index, name="is_natural_experiment")
+    for cand in candidates.itertuples(index=False):
+        same = events["company_id"] == cand.company_id
+        near = (pd.to_datetime(events["date_utc"]) - cand.date).dt.days.abs() <= days
+        out |= same & near
+    return out
+
+
+def finalize(events: pd.DataFrame, candidates: pd.DataFrame,
+             params: Mapping | None = None) -> pd.DataFrame:
+    """Add is_natural_experiment and split, keep the frozen columns, validate (§7.7)."""
+    params = params or load_params()
+    ev = events.copy()
+    ev["is_natural_experiment"] = flag_natural_experiments(ev, candidates).to_numpy()
+    when = ev["j0"].fillna(ev["date_utc"])
+    ev["split"] = splits.period_split(when, params["splits"], ev["is_natural_experiment"])
+    ev["n_articles"] = ev["n_articles"].astype("int64")
+    ev["excluded"] = ev["excluded"].astype(bool)
+    ev = ev[EVENT_COLUMNS].sort_values(["date_utc", "person_id"]).reset_index(drop=True)
+    return validate(ev, "events")
+
+
+def _parse_overrides(pairs: list[str]) -> dict:
+    """["shocks.z_wiki_min=2.5", ...] -> nested dict with YAML-parsed values."""
+    out: dict = {}
+    for pair in pairs:
+        key, _, value = pair.partition("=")
+        if not key or not _:
+            raise ValueError(f"--set expects key.path=value, got {pair!r}")
+        node = out
+        *parents, leaf = key.split(".")
+        for part in parents:
+            node = node.setdefault(part, {})
+        node[leaf] = yaml.safe_load(value)
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
-    raise NotImplementedError("kpr.build.events: writing the events table is task Q5")
+    parser = argparse.ArgumentParser(
+        prog="python -m kpr.build.events",
+        description="Detect shocks, compute CARs and write the events table (dossier §7).",
+    )
+    parser.add_argument("--set", action="append", default=[], metavar="KEY=VALUE",
+                        help="override a quant.yaml parameter, e.g. shocks.z_wiki_min=2.5")
+    parser.add_argument("--out", type=Path,
+                        help="write a parquet file here instead of the shared events table")
+    parser.add_argument("--dry-run", action="store_true", help="build and validate only")
+    args = parser.parse_args(argv)
+
+    params = load_params(_parse_overrides(args.set))
+    tables = {n: read_table(n) for n in ("panel", "prices", "market", "earnings", "wiki_views",
+                                         "gdelt_daily")}
+    raw = build_events(**tables, params=params)
+    events = finalize(raw, ne.load_candidates(), params)
+
+    kept = events[~events["excluded"]]
+    log.info("events=%d kept=%d reserved=%d", len(events), len(kept),
+             int(events["is_natural_experiment"].sum()))
+    print(kept.groupby(["split", "sign"]).size().unstack(fill_value=0).to_string())
+
+    if args.out:
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        events.to_parquet(args.out, index=False)
+        log.info("wrote %s", args.out)
+    elif args.dry_run or use_fixtures():
+        log.info("not written (%s)", "dry run" if args.dry_run else
+                 "fixtures: pass --out to save, the shared table is for real data only")
+    elif args.set:
+        log.info("not written: parameter overrides are for robustness runs, pass --out")
+    else:
+        log.info("wrote %s", write_table(events, "events"))
+    return 0
 
 
 if __name__ == "__main__":
