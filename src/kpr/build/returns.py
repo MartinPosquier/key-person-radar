@@ -177,7 +177,8 @@ def event_abnormal_returns(
 ) -> EventAR:
     """Fit the normal-return model before J0 and return the ARs of the event window.
 
-    `stock_ret` and `market_ret` are simple daily returns indexed by date. `sessions` is the
+    `stock_ret` and `market_ret` are daily returns indexed by date, as delivered in the `ret`
+    columns (log returns, dossier §6.4). `sessions` is the
     ordered list of trading sessions defining event time (default: the dates of `stock_ret`).
     Sessions outside the available history are left out of the frame, so a window that runs
     past the data gives a missing CAR.
