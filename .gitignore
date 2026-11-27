@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets and local settings
+.env
+.claude/settings.local.json
+
+# Data never goes into git (it lives in KPR_DATA_DIR)
+data/
+*.parquet
+*.csv.gz
+!tests/fixtures/*.parquet
+!app/data/*.parquet
+
+# Notebooks
+.ipynb_checkpoints/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
