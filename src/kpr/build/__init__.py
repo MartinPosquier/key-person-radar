@@ -1,1 +1,4 @@
-"""Cleaning, panel, returns, events, splits, tone, features (mixed owners, see PARALLEL_SESSIONS.md §3)."""
+"""Cleaning, panel, returns, events, splits, tone, features.
+
+Mixed owners: see PARALLEL_SESSIONS.md §3.
+"""
