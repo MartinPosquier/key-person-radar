@@ -1,11 +1,2102 @@
 # Owner: data session (task D2). One entry per mandate; a person may have several.
-# - person_id: jensen_huang
-#   company_id: NVDA
-#   role: CEO                   # CEO | CFO | chair | founder | other
-#   founder: true
-#   start: 1993-04-05           # check every date (Wikidata + manual)
-#   end: null
-#   wiki_pages: {en: Jensen_Huang}
-#   aliases: ["jensen huang", "jen-hsun huang"]
-#   source_check: wikidata+manual
-persons: []
+# Drafted by scripts/data_draft_persons.py (seed + Wikidata), then checked by hand.
+# Fields: person_id, company_id, role (CEO | CFO | chair | founder | other), founder,
+#   start, end (last day in the role, inclusive; null = still in office), wiki_pages
+#   (canonical titles; local language for European companies), aliases (GDELT
+#   matching, lower case), wikidata (QID), source_check, co_ceo (optional), note.
+# source_check: 'wikidata+draft' = draft dates within 31 days of Wikidata;
+#   'draft, ...' = needs a human check (list in coordination/inbox/user/).
+#   Set it to 'manual' once checked.
+persons:
+- person_id: elon_musk
+  company_id: TSLA
+  role: CEO
+  founder: true
+  start: '2008-10-01'
+  end: null
+  wiki_pages:
+    en: Elon_Musk
+  aliases:
+  - elon musk
+  wikidata: Q317521
+  source_check: wikidata+draft
+- person_id: elon_musk
+  company_id: TSLA
+  role: chair
+  founder: true
+  start: '2004-04-01'
+  end: '2018-11-12'
+  wiki_pages:
+    en: Elon_Musk
+  aliases:
+  - elon musk
+  wikidata: Q317521
+  source_check: wikidata+draft
+  note: 'SEC settlement: left the chair in Nov 2018'
+- person_id: jensen_huang
+  company_id: NVDA
+  role: CEO
+  founder: true
+  start: '1993-04-05'
+  end: null
+  wiki_pages:
+    en: Jensen_Huang
+  aliases:
+  - jensen huang
+  - jen-hsun jensen huang
+  - jen-hsun huang
+  wikidata: Q305177
+  source_check: draft, differs from wikidata
+- person_id: mark_zuckerberg
+  company_id: META
+  role: CEO
+  founder: true
+  start: '2004-02-04'
+  end: null
+  wiki_pages:
+    en: Mark_Zuckerberg
+  aliases:
+  - mark zuckerberg
+  - the zuck
+  - the zucc
+  wikidata: Q36215
+  source_check: wikidata+draft
+- person_id: jeff_bezos
+  company_id: AMZN
+  role: CEO
+  founder: true
+  start: '1994-07-05'
+  end: '2021-07-04'
+  wiki_pages:
+    en: Jeff_Bezos
+  aliases:
+  - jeff bezos
+  - jeffrey jorgensen
+  - jeff jorgensen
+  wikidata: Q312556
+  source_check: draft, differs from wikidata
+- person_id: jeff_bezos
+  company_id: AMZN
+  role: chair
+  founder: true
+  start: '2021-07-05'
+  end: null
+  wiki_pages:
+    en: Jeff_Bezos
+  aliases:
+  - jeff bezos
+  - jeffrey jorgensen
+  - jeff jorgensen
+  wikidata: Q312556
+  source_check: draft, not in wikidata
+  note: executive chair
+- person_id: andy_jassy
+  company_id: AMZN
+  role: CEO
+  founder: false
+  start: '2021-07-05'
+  end: null
+  wiki_pages:
+    en: Andy_Jassy
+  aliases:
+  - andy jassy
+  - andrew jassy
+  wikidata: Q41812531
+  source_check: wikidata+draft
+- person_id: tim_cook
+  company_id: AAPL
+  role: CEO
+  founder: false
+  start: '2011-08-24'
+  end: null
+  wiki_pages:
+    en: Tim_Cook
+  aliases:
+  - tim cook
+  - tim apple
+  wikidata: Q265852
+  source_check: draft, differs from wikidata
+- person_id: steve_ballmer
+  company_id: MSFT
+  role: CEO
+  founder: false
+  start: '2000-01-13'
+  end: '2014-02-03'
+  wiki_pages:
+    en: Steve_Ballmer
+  aliases:
+  - steve ballmer
+  - steve anthony ballmer
+  wikidata: Q181162
+  source_check: wikidata+draft
+- person_id: satya_nadella
+  company_id: MSFT
+  role: CEO
+  founder: false
+  start: '2014-02-04'
+  end: null
+  wiki_pages:
+    en: Satya_Nadella
+  aliases:
+  - satya nadella
+  - bukkapuram nadella satyanarayana
+  wikidata: Q7426870
+  source_check: wikidata+draft
+- person_id: larry_page
+  company_id: GOOGL
+  role: CEO
+  founder: true
+  start: '2011-04-04'
+  end: '2019-12-02'
+  wiki_pages:
+    en: Larry_Page
+  aliases:
+  - larry page
+  - lawrence page
+  - lawrence e. page
+  - lawrence edward "larry" page
+  - lawrence edward larry page
+  - larry e. page
+  wikidata: Q4934
+  source_check: draft, differs from wikidata
+  note: Google CEO, then Alphabet CEO from 2015-10-02
+- person_id: larry_page
+  company_id: GOOGL
+  role: other
+  founder: true
+  start: '2019-12-03'
+  end: null
+  wiki_pages:
+    en: Larry_Page
+  aliases:
+  - larry page
+  - lawrence page
+  - lawrence e. page
+  - lawrence edward "larry" page
+  - lawrence edward larry page
+  - larry e. page
+  wikidata: Q4934
+  source_check: draft, not in wikidata
+  note: board member, controlling shareholder
+- person_id: sergey_brin
+  company_id: GOOGL
+  role: other
+  founder: true
+  start: '1998-09-04'
+  end: null
+  wiki_pages:
+    en: Sergey_Brin
+  aliases:
+  - sergey brin
+  - sergey mikhaylovich brin
+  - sergey mikhailovich brin
+  wikidata: Q92764
+  source_check: draft, not in wikidata
+  note: president of Alphabet 2015-2019, then board member
+- person_id: sundar_pichai
+  company_id: GOOGL
+  role: other
+  founder: false
+  start: '2015-10-02'
+  end: '2019-12-02'
+  wiki_pages:
+    en: Sundar_Pichai
+  aliases:
+  - sundar pichai
+  - pichai sundarajan
+  - pichai sundararajan
+  - sundara pichai
+  wikidata: Q3503829
+  source_check: draft, not in wikidata
+  note: CEO of the Google subsidiary
+- person_id: sundar_pichai
+  company_id: GOOGL
+  role: CEO
+  founder: false
+  start: '2019-12-03'
+  end: null
+  wiki_pages:
+    en: Sundar_Pichai
+  aliases:
+  - sundar pichai
+  - pichai sundarajan
+  - pichai sundararajan
+  - sundara pichai
+  wikidata: Q3503829
+  source_check: wikidata+draft
+- person_id: reed_hastings
+  company_id: NFLX
+  role: CEO
+  founder: true
+  start: '1998-01-01'
+  end: '2023-01-18'
+  wiki_pages:
+    en: Reed_Hastings
+  aliases:
+  - reed hastings
+  - wilmot reed hastings, jr.
+  wikidata: Q7306657
+  source_check: draft, not in wikidata
+  co_ceo: true
+  note: co-CEO with Sarandos from 2020-07-16
+- person_id: reed_hastings
+  company_id: NFLX
+  role: chair
+  founder: true
+  start: '2023-01-19'
+  end: null
+  wiki_pages:
+    en: Reed_Hastings
+  aliases:
+  - reed hastings
+  - wilmot reed hastings, jr.
+  wikidata: Q7306657
+  source_check: draft, not in wikidata
+  note: executive chair
+- person_id: ted_sarandos
+  company_id: NFLX
+  role: CEO
+  founder: false
+  start: '2020-07-16'
+  end: null
+  wiki_pages:
+    en: Ted_Sarandos
+  aliases:
+  - ted sarandos
+  - theodore anthony sarandos jr.
+  - theodore a. sarandos
+  - theodore sarandos
+  wikidata: Q19661212
+  source_check: draft, not in wikidata
+  co_ceo: true
+  note: co-CEO
+- person_id: greg_peters
+  company_id: NFLX
+  role: CEO
+  founder: false
+  start: '2023-01-19'
+  end: null
+  wiki_pages:
+    en: Greg_Peters_(businessman)
+  aliases:
+  - greg peters
+  wikidata: Q116632987
+  source_check: draft, not in wikidata
+  co_ceo: true
+  note: co-CEO
+- person_id: warren_buffett
+  company_id: BRK
+  role: CEO
+  founder: false
+  start: '1970-05-10'
+  end: '2025-12-31'
+  wiki_pages:
+    en: Warren_Buffett
+  aliases:
+  - warren buffett
+  - warren edward buffett
+  wikidata: Q47213
+  source_check: draft, not in wikidata
+- person_id: greg_abel
+  company_id: BRK
+  role: other
+  founder: false
+  start: '2018-01-10'
+  end: '2025-12-31'
+  wiki_pages:
+    en: Greg_Abel
+  aliases:
+  - greg abel
+  - gregory edward abel
+  wikidata: Q47168572
+  source_check: draft, not in wikidata
+  note: vice chair, designated successor (2021)
+- person_id: greg_abel
+  company_id: BRK
+  role: CEO
+  founder: false
+  start: '2026-01-01'
+  end: null
+  wiki_pages:
+    en: Greg_Abel
+  aliases:
+  - greg abel
+  - gregory edward abel
+  wikidata: Q47168572
+  source_check: wikidata+draft
+  note: outside the study period
+- person_id: jamie_dimon
+  company_id: JPM
+  role: CEO
+  founder: false
+  start: '2005-12-31'
+  end: null
+  wiki_pages:
+    en: Jamie_Dimon
+  aliases:
+  - jamie dimon
+  - james dimon
+  - james "jamie" dimon
+  wikidata: Q922169
+  source_check: draft, differs from wikidata
+- person_id: larry_ellison
+  company_id: ORCL
+  role: CEO
+  founder: true
+  start: '1977-06-16'
+  end: '2014-09-17'
+  wiki_pages:
+    en: Larry_Ellison
+  aliases:
+  - larry ellison
+  - lawrence joseph ellison
+  - lawrence ellison
+  - lawrence j. ellison
+  - lawrence joseph "larry" ellison
+  - larry j ellison
+  wikidata: Q92759
+  source_check: draft, not in wikidata
+- person_id: larry_ellison
+  company_id: ORCL
+  role: chair
+  founder: true
+  start: '2014-09-18'
+  end: null
+  wiki_pages:
+    en: Larry_Ellison
+  aliases:
+  - larry ellison
+  - lawrence joseph ellison
+  - lawrence ellison
+  - lawrence j. ellison
+  - lawrence joseph "larry" ellison
+  - larry j ellison
+  wikidata: Q92759
+  source_check: draft, differs from wikidata
+  note: executive chair and CTO
+- person_id: safra_catz
+  company_id: ORCL
+  role: CEO
+  founder: false
+  start: '2014-09-18'
+  end: '2025-09-21'
+  wiki_pages:
+    en: Safra_Catz
+  aliases:
+  - safra catz
+  - safra ada catz
+  - safra a. catz
+  - safra a catz
+  wikidata: Q450628
+  source_check: draft, not in wikidata
+  co_ceo: true
+  note: co-CEO with Mark Hurd until 2019-09
+- person_id: mark_hurd
+  company_id: ORCL
+  role: CEO
+  founder: false
+  start: '2014-09-18'
+  end: '2019-09-10'
+  wiki_pages:
+    en: Mark_Hurd
+  aliases:
+  - mark hurd
+  - mark v. hurd
+  - mark vincent hurd
+  wikidata: Q711976
+  source_check: draft, not in wikidata
+  co_ceo: true
+  note: co-CEO, medical leave then death (2019-10-18)
+- person_id: alex_karp
+  company_id: PLTR
+  role: CEO
+  founder: true
+  start: '2004-01-01'
+  end: null
+  wiki_pages:
+    en: Alex_Karp
+  aliases:
+  - alexander c. karp
+  wikidata: Q19560940
+  source_check: draft, differs from wikidata
+- person_id: peter_thiel
+  company_id: PLTR
+  role: chair
+  founder: true
+  start: '2003-05-01'
+  end: null
+  wiki_pages:
+    en: Peter_Thiel
+  aliases:
+  - peter thiel
+  - peter andreas thiel
+  - peter a. thiel
+  wikidata: Q705525
+  source_check: draft, not in wikidata
+- person_id: brian_armstrong
+  company_id: COIN
+  role: CEO
+  founder: true
+  start: '2012-06-01'
+  end: null
+  wiki_pages:
+    en: Brian_Armstrong_(businessman)
+  aliases:
+  - brian armstrong
+  wikidata: Q64705310
+  source_check: draft, differs from wikidata
+- person_id: michael_saylor
+  company_id: MSTR
+  role: CEO
+  founder: true
+  start: '1989-11-17'
+  end: '2022-08-07'
+  wiki_pages:
+    en: Michael_J._Saylor
+  aliases:
+  - michael j. saylor
+  - michael saylor
+  wikidata: Q6831501
+  source_check: draft, differs from wikidata
+- person_id: michael_saylor
+  company_id: MSTR
+  role: chair
+  founder: true
+  start: '2022-08-08'
+  end: null
+  wiki_pages:
+    en: Michael_J._Saylor
+  aliases:
+  - michael j. saylor
+  - michael saylor
+  wikidata: Q6831501
+  source_check: draft, not in wikidata
+  note: executive chair
+- person_id: phong_le
+  company_id: MSTR
+  role: CEO
+  founder: false
+  start: '2022-08-08'
+  end: null
+  wiki_pages: {}
+  aliases:
+  - phong le
+  wikidata: null
+  source_check: draft, not in wikidata
+  note: no English page (redirects to the company)
+- person_id: lisa_su
+  company_id: AMD
+  role: CEO
+  founder: false
+  start: '2014-10-08'
+  end: null
+  wiki_pages:
+    en: Lisa_Su
+  aliases:
+  - lisa su
+  - lisa t. su
+  - lisa tzwu-fang su
+  - dr. lisa su
+  wikidata: Q18207172
+  source_check: wikidata+draft
+- person_id: rory_read
+  company_id: AMD
+  role: CEO
+  founder: false
+  start: '2011-08-25'
+  end: '2014-10-07'
+  wiki_pages:
+    en: Rory_Read
+  aliases:
+  - rory read
+  wikidata: Q7366944
+  source_check: draft, not in wikidata
+- person_id: marc_benioff
+  company_id: CRM
+  role: CEO
+  founder: true
+  start: '1999-03-08'
+  end: null
+  wiki_pages:
+    en: Marc_Benioff
+  aliases:
+  - marc benioff
+  - marc russell benioff
+  - marc r. benioff
+  wikidata: Q1521908
+  source_check: wikidata+draft
+  co_ceo: true
+  note: co-CEO periods with Keith Block and Bret Taylor
+- person_id: bob_iger
+  company_id: DIS
+  role: CEO
+  founder: false
+  start: '2005-10-01'
+  end: '2020-02-24'
+  wiki_pages:
+    en: Bob_Iger
+  aliases:
+  - bob iger
+  - robert a. iger
+  - robert alan "bob" iger
+  - robert alan iger
+  wikidata: Q532423
+  source_check: draft, differs from wikidata
+- person_id: bob_iger
+  company_id: DIS
+  role: other
+  founder: false
+  start: '2020-02-25'
+  end: '2021-12-31'
+  wiki_pages:
+    en: Bob_Iger
+  aliases:
+  - bob iger
+  - robert a. iger
+  - robert alan "bob" iger
+  - robert alan iger
+  wikidata: Q532423
+  source_check: draft, not in wikidata
+  note: executive chair
+- person_id: bob_iger
+  company_id: DIS
+  role: CEO
+  founder: false
+  start: '2022-11-20'
+  end: null
+  wiki_pages:
+    en: Bob_Iger
+  aliases:
+  - bob iger
+  - robert a. iger
+  - robert alan "bob" iger
+  - robert alan iger
+  wikidata: Q532423
+  source_check: draft, differs from wikidata
+  note: return as CEO
+- person_id: bob_chapek
+  company_id: DIS
+  role: CEO
+  founder: false
+  start: '2020-02-25'
+  end: '2022-11-19'
+  wiki_pages:
+    en: Bob_Chapek
+  aliases:
+  - bob chapek
+  - robert chapek
+  - robert alan chapek
+  wikidata: Q86408516
+  source_check: draft, differs from wikidata
+  note: ousted
+- person_id: dennis_muilenburg
+  company_id: BA
+  role: CEO
+  founder: false
+  start: '2015-07-01'
+  end: '2019-12-22'
+  wiki_pages:
+    en: Dennis_Muilenburg
+  aliases:
+  - dennis muilenburg
+  - dennis a. muilenburg
+  wikidata: Q20205127
+  source_check: wikidata+draft
+  note: ousted after the 737 MAX crashes
+- person_id: dave_calhoun
+  company_id: BA
+  role: CEO
+  founder: false
+  start: '2020-01-13'
+  end: '2024-08-07'
+  wiki_pages:
+    en: Dave_Calhoun
+  aliases:
+  - dave calhoun
+  - david calhoun
+  - david l. calhoun
+  wikidata: Q16727786
+  source_check: wikidata+draft
+- person_id: kelly_ortberg
+  company_id: BA
+  role: CEO
+  founder: false
+  start: '2024-08-08'
+  end: null
+  wiki_pages:
+    en: Kelly_Ortberg
+  aliases:
+  - kelly ortberg
+  - robert k. ortberg
+  - robert ortberg
+  - robert kelly ortberg
+  - robert k ortberg
+  wikidata: Q109767256
+  source_check: wikidata+draft
+- person_id: howard_schultz
+  company_id: SBUX
+  role: CEO
+  founder: false
+  start: '2008-01-07'
+  end: '2017-04-02'
+  wiki_pages:
+    en: Howard_Schultz
+  aliases:
+  - howard schultz
+  - howard d. schultz
+  wikidata: Q472330
+  source_check: draft, differs from wikidata
+  note: second stint
+- person_id: kevin_johnson
+  company_id: SBUX
+  role: CEO
+  founder: false
+  start: '2017-04-03'
+  end: '2022-04-03'
+  wiki_pages:
+    en: Kevin_Johnson_(American_businessman)
+  aliases:
+  - kevin johnson
+  - kevin r. johnson
+  wikidata: Q6396617
+  source_check: draft, differs from wikidata
+- person_id: howard_schultz
+  company_id: SBUX
+  role: CEO
+  founder: false
+  start: '2022-04-04'
+  end: '2023-03-19'
+  wiki_pages:
+    en: Howard_Schultz
+  aliases:
+  - howard schultz
+  - howard d. schultz
+  wikidata: Q472330
+  source_check: draft, differs from wikidata
+  note: interim CEO
+- person_id: laxman_narasimhan
+  company_id: SBUX
+  role: CEO
+  founder: false
+  start: '2023-03-20'
+  end: '2024-08-12'
+  wiki_pages:
+    en: Laxman_Narasimhan
+  aliases:
+  - laxman narasimhan
+  wikidata: Q64745663
+  source_check: wikidata+draft
+  note: ousted
+- person_id: brian_niccol
+  company_id: SBUX
+  role: CEO
+  founder: false
+  start: '2024-09-09'
+  end: null
+  wiki_pages:
+    en: Brian_Niccol
+  aliases:
+  - brian niccol
+  wikidata: Q117249140
+  source_check: wikidata+draft
+- person_id: ryan_cohen
+  company_id: GME
+  role: chair
+  founder: false
+  start: '2021-06-09'
+  end: null
+  wiki_pages:
+    en: Ryan_Cohen
+  aliases:
+  - ryan cohen
+  wikidata: Q55114633
+  source_check: draft, not in wikidata
+  note: board member from 2021-01-11
+- person_id: ryan_cohen
+  company_id: GME
+  role: CEO
+  founder: false
+  start: '2023-09-28'
+  end: null
+  wiki_pages:
+    en: Ryan_Cohen
+  aliases:
+  - ryan cohen
+  wikidata: Q55114633
+  source_check: draft, not in wikidata
+- person_id: george_sherman
+  company_id: GME
+  role: CEO
+  founder: false
+  start: '2019-04-15'
+  end: '2021-06-20'
+  wiki_pages: {}
+  aliases:
+  - george sherman
+  wikidata: null
+  source_check: draft, not in wikidata
+  note: no English page
+- person_id: paul_raines
+  company_id: GME
+  role: CEO
+  founder: false
+  start: '2010-06-01'
+  end: '2019-04-14'
+  wiki_pages: {}
+  aliases:
+  - paul raines
+  wikidata: null
+  source_check: draft, not in wikidata
+  note: no English page
+- person_id: matt_furlong
+  company_id: GME
+  role: CEO
+  founder: false
+  start: '2021-06-21'
+  end: '2023-06-07'
+  wiki_pages: {}
+  aliases:
+  - matt furlong
+  wikidata: null
+  source_check: draft, not in wikidata
+  note: no English page
+- person_id: jack_dorsey
+  company_id: XYZ
+  role: CEO
+  founder: true
+  start: '2009-02-01'
+  end: null
+  wiki_pages:
+    en: Jack_Dorsey
+  aliases:
+  - jack dorsey
+  - jack patrick dorsey
+  wikidata: Q335552
+  source_check: wikidata+draft
+- person_id: tobi_lutke
+  company_id: SHOP
+  role: CEO
+  founder: true
+  start: '2008-01-01'
+  end: null
+  wiki_pages:
+    en: Tobias_Lütke
+  aliases:
+  - tobias lütke
+  - tobias lutke
+  - tobi lütke
+  - tobi lutke
+  wikidata: Q20684647
+  source_check: draft, not in wikidata
+- person_id: brian_chesky
+  company_id: ABNB
+  role: CEO
+  founder: true
+  start: '2008-08-01'
+  end: null
+  wiki_pages:
+    en: Brian_Chesky
+  aliases:
+  - brian chesky
+  - brian joseph chesky
+  wikidata: Q4963341
+  source_check: draft, differs from wikidata
+- person_id: evan_spiegel
+  company_id: SNAP
+  role: CEO
+  founder: true
+  start: '2012-01-01'
+  end: null
+  wiki_pages:
+    en: Evan_Spiegel
+  aliases:
+  - evan spiegel
+  - evan thomas spiegel
+  wikidata: Q15439301
+  source_check: draft, differs from wikidata
+- person_id: brian_krzanich
+  company_id: INTC
+  role: CEO
+  founder: false
+  start: '2013-05-16'
+  end: '2018-06-20'
+  wiki_pages:
+    en: Brian_Krzanich
+  aliases:
+  - brian krzanich
+  - brian matthew krzanich
+  wikidata: Q12572999
+  source_check: wikidata+draft
+  note: resigned
+- person_id: bob_swan
+  company_id: INTC
+  role: CEO
+  founder: false
+  start: '2018-06-21'
+  end: '2021-02-14'
+  wiki_pages:
+    en: Bob_Swan
+  aliases:
+  - bob swan
+  - robert h swan
+  - robert holmes swan
+  - robert swan
+  wikidata: Q55819738
+  source_check: wikidata+draft
+  note: interim until 2019-01-31
+- person_id: pat_gelsinger
+  company_id: INTC
+  role: CEO
+  founder: false
+  start: '2021-02-15'
+  end: '2024-11-30'
+  wiki_pages:
+    en: Pat_Gelsinger
+  aliases:
+  - pat gelsinger
+  - patrick p. gelsinger
+  - patrick paul gelsinger
+  wikidata: Q7143480
+  source_check: wikidata+draft
+  note: forced retirement
+- person_id: michelle_johnston_holthaus
+  company_id: INTC
+  role: CEO
+  founder: false
+  start: '2024-12-01'
+  end: '2025-03-17'
+  wiki_pages: {}
+  aliases:
+  - michelle johnston holthaus
+  wikidata: Q131981722
+  source_check: draft, differs from wikidata
+  co_ceo: true
+  note: interim co-CEO, no English page
+- person_id: lip_bu_tan
+  company_id: INTC
+  role: CEO
+  founder: false
+  start: '2025-03-18'
+  end: null
+  wiki_pages:
+    en: Lip-Bu_Tan
+  aliases:
+  - lip-bu tan
+  wikidata: Q19561225
+  source_check: draft, not in wikidata
+- person_id: larry_fink
+  company_id: BLK
+  role: CEO
+  founder: true
+  start: '1988-01-01'
+  end: null
+  wiki_pages:
+    en: Larry_Fink
+  aliases:
+  - larry fink
+  - laurence douglas fink
+  - laurence d. fink
+  - laurence fink
+  wikidata: Q3218882
+  source_check: wikidata+draft
+- person_id: lloyd_blankfein
+  company_id: GS
+  role: CEO
+  founder: false
+  start: '2006-06-01'
+  end: '2018-09-30'
+  wiki_pages:
+    en: Lloyd_Blankfein
+  aliases:
+  - lloyd blankfein
+  - lloyd c. blankfein
+  wikidata: Q1359151
+  source_check: wikidata+draft
+- person_id: david_solomon
+  company_id: GS
+  role: CEO
+  founder: false
+  start: '2018-10-01'
+  end: null
+  wiki_pages:
+    en: David_M._Solomon
+  aliases:
+  - david m. solomon
+  - dj d-sol
+  - david solomon
+  wikidata: Q29641838
+  source_check: wikidata+draft
+  note: homonym DJ (dossier §4.5)
+- person_id: vlad_tenev
+  company_id: HOOD
+  role: CEO
+  founder: true
+  start: '2013-04-01'
+  end: null
+  wiki_pages:
+    en: Vlad_Tenev
+  aliases:
+  - vlad tenev
+  - vladimir tenev
+  wikidata: Q56248473
+  source_check: draft, not in wikidata
+- person_id: bernard_arnault
+  company_id: MC
+  role: CEO
+  founder: false
+  start: '1989-01-13'
+  end: null
+  wiki_pages:
+    en: Bernard_Arnault
+    fr: Bernard_Arnault
+  aliases:
+  - bernard arnault
+  - bernard jean étienne arnault
+  - bernard jean etienne arnault
+  wikidata: Q32055
+  source_check: draft, differs from wikidata
+  note: controlling shareholder
+- person_id: christophe_de_margerie
+  company_id: TTE
+  role: CEO
+  founder: false
+  start: '2010-02-12'
+  end: '2014-10-20'
+  wiki_pages:
+    en: Christophe_de_Margerie
+    fr: Christophe_de_Margerie
+  aliases:
+  - christophe de margerie
+  wikidata: Q346081
+  source_check: draft, differs from wikidata
+  note: died in a plane crash
+- person_id: patrick_pouyanne
+  company_id: TTE
+  role: CEO
+  founder: false
+  start: '2014-10-22'
+  end: null
+  wiki_pages:
+    en: Patrick_Pouyanné
+    fr: Patrick_Pouyanné
+  aliases:
+  - patrick pouyanné
+  - patrick pouyanne
+  - patrick jean pouyanné
+  - patrick jean pouyanne
+  wikidata: Q18342983
+  source_check: wikidata+draft
+- person_id: francois_henri_pinault
+  company_id: KER
+  role: CEO
+  founder: false
+  start: '2005-03-01'
+  end: '2025-09-14'
+  wiki_pages:
+    en: François-Henri_Pinault
+    fr: François-Henri_Pinault
+  aliases:
+  - françois-henri pinault
+  - francois-henri pinault
+  wikidata: Q1371822
+  source_check: draft, differs from wikidata
+  note: controlling family
+- person_id: luca_de_meo
+  company_id: KER
+  role: CEO
+  founder: false
+  start: '2025-09-15'
+  end: null
+  wiki_pages:
+    en: Luca_de_Meo
+    fr: Luca_de_Meo
+  aliases:
+  - luca de meo
+  wikidata: Q3264974
+  source_check: wikidata+draft
+- person_id: carlos_ghosn
+  company_id: RNO
+  role: CEO
+  founder: false
+  start: '2005-04-29'
+  end: '2019-01-23'
+  wiki_pages:
+    en: Carlos_Ghosn
+    fr: Carlos_Ghosn
+  aliases:
+  - carlos ghosn
+  - carlos ghosn dit bichara
+  - kārlūs ghuṣn
+  - karlus ghusn
+  wikidata: Q356719
+  source_check: draft, not in wikidata
+  note: arrested 2018-11-19
+- person_id: thierry_bollore
+  company_id: RNO
+  role: CEO
+  founder: false
+  start: '2019-01-24'
+  end: '2019-10-10'
+  wiki_pages:
+    en: Thierry_Bolloré
+    fr: Thierry_Bolloré
+  aliases:
+  - thierry bolloré
+  - thierry bollore
+  wikidata: Q33262547
+  source_check: draft, not in wikidata
+  note: interim from 2018-11-20, ousted
+- person_id: clotilde_delbos
+  company_id: RNO
+  role: CEO
+  founder: false
+  start: '2019-10-11'
+  end: '2020-06-30'
+  wiki_pages:
+    en: Clotilde_Delbos
+  aliases:
+  - clotilde delbos
+  - clotilde fricker
+  wikidata: Q48441071
+  source_check: draft, not in wikidata
+  note: interim
+- person_id: luca_de_meo
+  company_id: RNO
+  role: CEO
+  founder: false
+  start: '2020-07-01'
+  end: '2025-07-15'
+  wiki_pages:
+    en: Luca_de_Meo
+    fr: Luca_de_Meo
+  aliases:
+  - luca de meo
+  wikidata: Q3264974
+  source_check: draft, not in wikidata
+- person_id: francois_provost
+  company_id: RNO
+  role: CEO
+  founder: false
+  start: '2025-07-31'
+  end: null
+  wiki_pages:
+    en: François_Provost_(CEO)
+    fr: François_Provost
+  aliases:
+  - françois provost
+  - francois provost
+  wikidata: Q135494457
+  source_check: wikidata+draft
+- person_id: sergio_marchionne
+  company_id: STLAM
+  role: CEO
+  founder: false
+  start: '2004-06-01'
+  end: '2018-07-20'
+  wiki_pages:
+    en: Sergio_Marchionne
+    fr: Sergio_Marchionne
+    it: Sergio_Marchionne
+  aliases:
+  - sergio marchionne
+  wikidata: Q1229223
+  source_check: draft, not in wikidata
+  note: FCA, replaced days before his death
+- person_id: mike_manley
+  company_id: STLAM
+  role: CEO
+  founder: false
+  start: '2018-07-21'
+  end: '2021-01-15'
+  wiki_pages:
+    en: Michael_Manley_(CEO)
+    fr: Michael_Manley_(1964)
+    it: Michael_Manley_(dirigente_d'azienda)
+  aliases:
+  - michael manley
+  - mike manley
+  wikidata: Q55698517
+  source_check: draft, not in wikidata
+  note: FCA
+- person_id: carlos_tavares
+  company_id: STLAM
+  role: CEO
+  founder: false
+  start: '2021-01-16'
+  end: '2024-12-01'
+  wiki_pages:
+    en: Carlos_Tavares
+    fr: Carlos_Tavares
+    it: Carlos_Tavares
+  aliases:
+  - carlos tavares
+  wikidata: Q2939466
+  source_check: wikidata+draft
+  note: resigned
+- person_id: antonio_filosa
+  company_id: STLAM
+  role: CEO
+  founder: false
+  start: '2025-06-23'
+  end: null
+  wiki_pages:
+    en: Antonio_Filosa
+    fr: Antonio_Filosa
+    it: Antonio_Filosa
+  aliases:
+  - antonio filosa
+  wikidata: Q134594834
+  source_check: wikidata+draft
+- person_id: martin_winterkorn
+  company_id: VOW3
+  role: CEO
+  founder: false
+  start: '2007-01-01'
+  end: '2015-09-23'
+  wiki_pages:
+    en: Martin_Winterkorn
+    de: Martin_Winterkorn
+  aliases:
+  - martin winterkorn
+  wikidata: Q68355
+  source_check: wikidata+draft
+  note: resigned after Dieselgate
+- person_id: matthias_muller
+  company_id: VOW3
+  role: CEO
+  founder: false
+  start: '2015-09-25'
+  end: '2018-04-12'
+  wiki_pages:
+    en: Matthias_Müller_(businessman)
+    de: Matthias_Müller_(Manager)
+  aliases:
+  - matthias müller
+  - matthias muller
+  wikidata: Q1910173
+  source_check: wikidata+draft
+- person_id: herbert_diess
+  company_id: VOW3
+  role: CEO
+  founder: false
+  start: '2018-04-13'
+  end: '2022-08-31'
+  wiki_pages:
+    en: Herbert_Diess
+    de: Herbert_Diess
+  aliases:
+  - herbert diess
+  - dr. herbert diess
+  wikidata: Q19285388
+  source_check: wikidata+draft
+  note: ousted
+- person_id: oliver_blume
+  company_id: VOW3
+  role: CEO
+  founder: false
+  start: '2022-09-01'
+  end: null
+  wiki_pages:
+    en: Oliver_Blume
+    de: Oliver_Blume_(Manager)
+  aliases:
+  - oliver blume
+  wikidata: Q21032599
+  source_check: wikidata+draft
+- person_id: michael_oleary
+  company_id: RYA
+  role: CEO
+  founder: false
+  start: '1994-01-01'
+  end: null
+  wiki_pages:
+    en: Michael_O'Leary_(businessman)
+  aliases:
+  - michael o'leary
+  wikidata: Q597242
+  source_check: draft, differs from wikidata
+  note: Group CEO of Ryanair Holdings
+- person_id: yves_guillemot
+  company_id: UBI
+  role: CEO
+  founder: true
+  start: '1988-01-01'
+  end: null
+  wiki_pages:
+    en: Yves_Guillemot
+    fr: Yves_Guillemot_(entrepreneur)
+  aliases:
+  - yves guillemot
+  - yves marie rémy guillemot
+  - yves marie remy guillemot
+  wikidata: Q3573697
+  source_check: draft, differs from wikidata
+- person_id: franck_riboud
+  company_id: BN
+  role: CEO
+  founder: false
+  start: '1996-05-01'
+  end: '2014-09-30'
+  wiki_pages:
+    en: Franck_Riboud
+    fr: Franck_Riboud
+  aliases:
+  - franck riboud
+  wikidata: Q984356
+  source_check: draft, not in wikidata
+- person_id: emmanuel_faber
+  company_id: BN
+  role: CEO
+  founder: false
+  start: '2014-10-01'
+  end: '2021-03-15'
+  wiki_pages:
+    en: Emmanuel_Faber
+    fr: Emmanuel_Faber
+  aliases:
+  - emmanuel faber
+  wikidata: Q2378292
+  source_check: draft, not in wikidata
+  note: ousted
+- person_id: antoine_de_saint_affrique
+  company_id: BN
+  role: CEO
+  founder: false
+  start: '2021-09-15'
+  end: null
+  wiki_pages:
+    en: Antoine_Bernard_de_Saint-Affrique
+    fr: Antoine_Bernard_de_Saint-Affrique
+  aliases:
+  - antoine bernard de saint-affrique
+  - antoine de saint-affrique
+  wikidata: Q106880989
+  source_check: draft, not in wikidata
+- person_id: lars_rebien_sorensen
+  company_id: NOVO
+  role: CEO
+  founder: false
+  start: '2000-11-13'
+  end: '2016-12-31'
+  wiki_pages:
+    en: Lars_Rebien_Sørensen
+    da: Lars_Rebien_Sørensen
+  aliases:
+  - lars rebien sørensen
+  - lars rebien srensen
+  - lars rebien sorensen
+  - lars r sørensen
+  - lars r srensen
+  - lars r. sørensen
+  wikidata: Q12323903
+  source_check: wikidata+draft
+- person_id: lars_fruergaard_jorgensen
+  company_id: NOVO
+  role: CEO
+  founder: false
+  start: '2017-01-01'
+  end: '2025-08-06'
+  wiki_pages:
+    en: Lars_Fruergaard_Jørgensen
+    da: Lars_Fruergaard_Jørgensen
+  aliases:
+  - lars fruergaard jørgensen
+  - lars fruergaard jrgensen
+  - lars fruergaard jorgensen
+  wikidata: Q28858458
+  source_check: draft, differs from wikidata
+  note: ousted
+- person_id: mike_doustdar
+  company_id: NOVO
+  role: CEO
+  founder: false
+  start: '2025-08-07'
+  end: null
+  wiki_pages:
+    en: Mike_Doustdar
+    da: Mike_Doustdar
+  aliases:
+  - mike doustdar
+  - maziar mike doustdar
+  wikidata: Q135494805
+  source_check: draft, differs from wikidata
+- person_id: bob_dudley
+  company_id: BP
+  role: CEO
+  founder: false
+  start: '2010-10-01'
+  end: '2020-02-04'
+  wiki_pages:
+    en: Bob_Dudley
+  aliases:
+  - bob dudley
+  - robert warren dudley
+  - robert warren "bob" dudley
+  - robert dudley
+  wikidata: Q421864
+  source_check: wikidata+draft
+- person_id: bernard_looney
+  company_id: BP
+  role: CEO
+  founder: false
+  start: '2020-02-05'
+  end: '2023-09-11'
+  wiki_pages:
+    en: Bernard_Looney
+  aliases:
+  - bernard looney
+  wikidata: Q69703422
+  source_check: draft, differs from wikidata
+  note: resigned
+- person_id: murray_auchincloss
+  company_id: BP
+  role: CEO
+  founder: false
+  start: '2023-09-12'
+  end: '2025-12-01'
+  wiki_pages:
+    en: Murray_Auchincloss
+  aliases:
+  - murray auchincloss
+  - murray michael auchincloss
+  wikidata: Q122443335
+  source_check: draft, differs from wikidata
+  note: interim until 2024-01-17
+- person_id: daniel_ek
+  company_id: SPOT
+  role: CEO
+  founder: true
+  start: '2006-04-23'
+  end: '2025-12-31'
+  wiki_pages:
+    en: Daniel_Ek
+  aliases:
+  - daniel ek
+  - daniel georg ek
+  wikidata: Q901670
+  source_check: draft, not in wikidata
+  note: executive chair from 2026
+- person_id: bill_mcdermott
+  company_id: SAP
+  role: CEO
+  founder: false
+  start: '2010-02-07'
+  end: '2019-10-10'
+  wiki_pages:
+    en: Bill_McDermott
+    de: Bill_McDermott
+  aliases:
+  - bill mcdermott
+  - william r. mcdermott
+  - william mcdermott
+  - bill r. mcdermott
+  wikidata: Q862300
+  source_check: draft, not in wikidata
+  co_ceo: true
+  note: co-CEO with Snabe until 2014-05-21
+- person_id: jennifer_morgan
+  company_id: SAP
+  role: CEO
+  founder: false
+  start: '2019-10-11'
+  end: '2020-04-20'
+  wiki_pages:
+    en: Jennifer_Morgan
+    de: Jennifer_Morgan_(Managerin)
+  aliases:
+  - jennifer morgan
+  - jennifer b. morgan
+  wikidata: Q42867017
+  source_check: wikidata+draft
+  co_ceo: true
+  note: co-CEO
+- person_id: christian_klein
+  company_id: SAP
+  role: CEO
+  founder: false
+  start: '2019-10-11'
+  end: null
+  wiki_pages:
+    en: Christian_Klein
+    de: Christian_Klein_(Manager)
+  aliases:
+  - christian klein
+  wikidata: Q70623824
+  source_check: wikidata+draft
+  co_ceo: true
+  note: co-CEO until 2020-04-20
+- person_id: peter_wennink
+  company_id: ASML
+  role: CEO
+  founder: false
+  start: '2013-07-01'
+  end: '2024-04-23'
+  wiki_pages:
+    en: Peter_Wennink
+    nl: Peter_Wennink
+  aliases:
+  - peter wennink
+  wikidata: Q96654591
+  source_check: wikidata+draft
+- person_id: christophe_fouquet
+  company_id: ASML
+  role: CEO
+  founder: false
+  start: '2024-04-24'
+  end: null
+  wiki_pages:
+    nl: Christophe_Fouquet_(ASML)
+  aliases:
+  - christophe fouquet
+  wikidata: Q138786664
+  source_check: wikidata+draft
+  note: no English page
+- person_id: tom_enders
+  company_id: AIR
+  role: CEO
+  founder: false
+  start: '2012-06-01'
+  end: '2019-04-09'
+  wiki_pages:
+    en: Tom_Enders
+    fr: Thomas_Enders
+  aliases:
+  - tom enders
+  - dr. thomas enders
+  - dr. tom enders
+  - thomas enders
+  - major tom
+  wikidata: Q95307
+  source_check: wikidata+draft
+- person_id: guillaume_faury
+  company_id: AIR
+  role: CEO
+  founder: false
+  start: '2019-04-10'
+  end: null
+  wiki_pages:
+    en: Guillaume_Faury
+    fr: Guillaume_Faury
+  aliases:
+  - guillaume faury
+  wikidata: Q33158035
+  source_check: wikidata+draft
+- person_id: sergio_ermotti
+  company_id: UBSG
+  role: CEO
+  founder: false
+  start: '2011-11-15'
+  end: '2020-10-31'
+  wiki_pages:
+    en: Sergio_Ermotti
+    de: Sergio_Ermotti
+  aliases:
+  - sergio ermotti
+  - sergio pietro ermotti
+  - sergio p. ermotti
+  wikidata: Q117289
+  source_check: draft, differs from wikidata
+- person_id: ralph_hamers
+  company_id: UBSG
+  role: CEO
+  founder: false
+  start: '2020-11-01'
+  end: '2023-04-04'
+  wiki_pages:
+    en: Ralph_Hamers
+    de: Ralph_Hamers
+  aliases:
+  - ralph hamers
+  - ralph adrianus joseph gerardus hamers
+  wikidata: Q5349717
+  source_check: draft, not in wikidata
+- person_id: sergio_ermotti
+  company_id: UBSG
+  role: CEO
+  founder: false
+  start: '2023-04-05'
+  end: null
+  wiki_pages:
+    en: Sergio_Ermotti
+    de: Sergio_Ermotti
+  aliases:
+  - sergio ermotti
+  - sergio pietro ermotti
+  - sergio p. ermotti
+  wikidata: Q117289
+  source_check: draft, differs from wikidata
+  note: return after the Credit Suisse takeover
+- person_id: ugur_sahin
+  company_id: BNTX
+  role: CEO
+  founder: true
+  start: '2008-06-02'
+  end: null
+  wiki_pages:
+    en: Uğur_Şahin
+    de: Uğur_Şahin
+  aliases:
+  - uğur şahin
+  - ugur sahin
+  wikidata: Q2505089
+  source_check: draft, differs from wikidata
+- person_id: anshu_jain
+  company_id: DBK
+  role: CEO
+  founder: false
+  start: '2012-06-01'
+  end: '2015-06-30'
+  wiki_pages:
+    en: Anshu_Jain
+    de: Anshu_Jain
+  aliases:
+  - anshu jain
+  - anshuman jain
+  wikidata: Q569798
+  source_check: draft, not in wikidata
+  co_ceo: true
+  note: co-CEO
+- person_id: jurgen_fitschen
+  company_id: DBK
+  role: CEO
+  founder: false
+  start: '2012-06-01'
+  end: '2016-05-19'
+  wiki_pages:
+    en: Jürgen_Fitschen
+    de: Jürgen_Fitschen_(Manager)
+  aliases:
+  - juergen fitschen
+  - jürgen fitschen
+  - jurgen fitschen
+  wikidata: Q104588
+  source_check: draft, not in wikidata
+  co_ceo: true
+  note: co-CEO
+- person_id: john_cryan
+  company_id: DBK
+  role: CEO
+  founder: false
+  start: '2015-07-01'
+  end: '2018-04-07'
+  wiki_pages:
+    en: John_Cryan
+    de: John_Cryan
+  aliases:
+  - john cryan
+  - john michael cryan
+  - john m. cryan
+  wikidata: Q6227807
+  source_check: draft, not in wikidata
+  co_ceo: true
+  note: co-CEO with Fitschen until 2016-05-19
+- person_id: christian_sewing
+  company_id: DBK
+  role: CEO
+  founder: false
+  start: '2018-04-08'
+  end: null
+  wiki_pages:
+    en: Christian_Sewing
+    de: Christian_Sewing
+  aliases:
+  - christian sewing
+  wikidata: Q51641672
+  source_check: draft, differs from wikidata
+- person_id: a_g_lafley
+  company_id: PG
+  role: CEO
+  founder: false
+  start: '2013-05-23'
+  end: '2015-10-31'
+  wiki_pages:
+    en: A.G._Lafley
+  aliases:
+  - a.g. lafley
+  wikidata: Q2636700
+  source_check: draft, not in wikidata
+- person_id: david_taylor
+  company_id: PG
+  role: CEO
+  founder: false
+  start: '2015-11-01'
+  end: '2021-10-31'
+  wiki_pages:
+    en: David_S._Taylor
+  aliases:
+  - david s. taylor
+  - david taylor
+  - david scott taylor
+  wikidata: Q21063670
+  source_check: draft, not in wikidata
+- person_id: jon_moeller
+  company_id: PG
+  role: CEO
+  founder: false
+  start: '2021-11-01'
+  end: '2025-12-31'
+  wiki_pages:
+    en: Jon_Moeller
+  aliases:
+  - jon moeller
+  - jon r. moeller
+  wikidata: Q16195693
+  source_check: draft, differs from wikidata
+- person_id: alex_gorsky
+  company_id: JNJ
+  role: CEO
+  founder: false
+  start: '2012-04-26'
+  end: '2022-01-02'
+  wiki_pages:
+    en: Alex_Gorsky
+  aliases:
+  - alex gorsky
+  wikidata: Q16193601
+  source_check: wikidata+draft
+- person_id: joaquin_duato
+  company_id: JNJ
+  role: CEO
+  founder: false
+  start: '2022-01-03'
+  end: null
+  wiki_pages:
+    en: Joaquín_Duato
+  aliases:
+  - joaquin duato
+  - joaquín duato boix
+  - joaquin duato boix
+  wikidata: Q113356474
+  source_check: wikidata+draft
+- person_id: muhtar_kent
+  company_id: KO
+  role: CEO
+  founder: false
+  start: '2008-07-01'
+  end: '2017-04-30'
+  wiki_pages:
+    en: Muhtar_Kent
+  aliases:
+  - muhtar kent
+  - ahmet muhtar kent
+  - muhtar a. kent
+  wikidata: Q1392181
+  source_check: draft, differs from wikidata
+- person_id: james_quincey
+  company_id: KO
+  role: CEO
+  founder: false
+  start: '2017-05-01'
+  end: null
+  wiki_pages:
+    en: James_Quincey
+  aliases:
+  - james quincey
+  - james robert b. quincey
+  wikidata: Q27839505
+  source_check: draft, differs from wikidata
+- person_id: charles_scharf
+  company_id: V
+  role: CEO
+  founder: false
+  start: '2012-11-01'
+  end: '2016-11-30'
+  wiki_pages:
+    en: Charles_Scharf
+  aliases:
+  - charlie scharf
+  - charles scharf
+  - charles w. scharf
+  wikidata: Q18386868
+  source_check: draft, not in wikidata
+- person_id: alfred_kelly
+  company_id: V
+  role: CEO
+  founder: false
+  start: '2016-12-01'
+  end: '2023-01-31'
+  wiki_pages:
+    en: Alfred_F._Kelly_Jr.
+  aliases:
+  - alfred f. kelly jr.
+  - alfred f. kelly jr
+  - alfred kelly, jr.
+  - alfred f. kelly
+  wikidata: Q104784751
+  source_check: draft, differs from wikidata
+- person_id: ryan_mcinerney
+  company_id: V
+  role: CEO
+  founder: false
+  start: '2023-02-01'
+  end: null
+  wiki_pages:
+    en: Ryan_McInerney
+  aliases:
+  - ryan mcinerney
+  wikidata: Q114837486
+  source_check: wikidata+draft
+- person_id: rex_tillerson
+  company_id: XOM
+  role: CEO
+  founder: false
+  start: '2006-01-01'
+  end: '2016-12-31'
+  wiki_pages:
+    en: Rex_Tillerson
+  aliases:
+  - rex tillerson
+  - rex w. tillerson
+  wikidata: Q331401
+  source_check: wikidata+draft
+- person_id: darren_woods
+  company_id: XOM
+  role: CEO
+  founder: false
+  start: '2017-01-01'
+  end: null
+  wiki_pages:
+    en: Darren_Woods
+  aliases:
+  - darren woods
+  - darren w. woods
+  wikidata: Q28018191
+  source_check: wikidata+draft
+- person_id: frank_blake
+  company_id: HD
+  role: CEO
+  founder: false
+  start: '2007-01-02'
+  end: '2014-10-31'
+  wiki_pages:
+    en: Frank_Blake_(businessman)
+  aliases:
+  - frank blake
+  - francis stanton blake
+  - frank s. blake
+  - francis s. blake
+  wikidata: Q1437140
+  source_check: wikidata+draft
+- person_id: craig_menear
+  company_id: HD
+  role: CEO
+  founder: false
+  start: '2014-11-01'
+  end: '2022-02-28'
+  wiki_pages:
+    en: Craig_Menear
+  aliases:
+  - craig menear
+  - craig a. menear
+  wikidata: Q28920824
+  source_check: wikidata+draft
+- person_id: ted_decker
+  company_id: HD
+  role: CEO
+  founder: false
+  start: '2022-03-01'
+  end: null
+  wiki_pages:
+    en: Ted_Decker
+  aliases:
+  - ted decker
+  - edward decker
+  - edward p. decker
+  wikidata: Q113632708
+  source_check: wikidata+draft
+- person_id: indra_nooyi
+  company_id: PEP
+  role: CEO
+  founder: false
+  start: '2006-10-01'
+  end: '2018-10-02'
+  wiki_pages:
+    en: Indra_Nooyi
+  aliases:
+  - indra nooyi
+  - indra krishnamurthy nooyi
+  - indra krishnamurthy
+  - indra k nooyi
+  - indra k. nooyi
+  wikidata: Q264913
+  source_check: draft, differs from wikidata
+- person_id: ramon_laguarta
+  company_id: PEP
+  role: CEO
+  founder: false
+  start: '2018-10-03'
+  end: null
+  wiki_pages:
+    en: Ramón_Laguarta
+  aliases:
+  - ramon laguarta
+  - ramon luis laguarta
+  - ramon l. laguarta
+  wikidata: Q56042353
+  source_check: wikidata+draft
+- person_id: paul_bulcke
+  company_id: NESN
+  role: CEO
+  founder: false
+  start: '2008-04-10'
+  end: '2016-12-31'
+  wiki_pages:
+    en: Paul_Bulcke
+    fr: Paul_Bulcke
+  aliases:
+  - paul bulcke
+  wikidata: Q261057
+  source_check: draft, not in wikidata
+- person_id: ulf_mark_schneider
+  company_id: NESN
+  role: CEO
+  founder: false
+  start: '2017-01-01'
+  end: '2024-08-31'
+  wiki_pages:
+    en: Ulf_Mark_Schneider
+    fr: Ulf_Mark_Schneider
+  aliases:
+  - ulf mark schneider
+  wikidata: Q98401
+  source_check: draft, differs from wikidata
+  note: ousted
+- person_id: laurent_freixe
+  company_id: NESN
+  role: CEO
+  founder: false
+  start: '2024-09-01'
+  end: '2025-09-01'
+  wiki_pages:
+    en: Laurent_Freixe
+    fr: Laurent_Freixe
+  aliases:
+  - laurent freixe
+  - laurent françois charles freixe
+  - laurent francois charles freixe
+  wikidata: Q33175127
+  source_check: draft, not in wikidata
+  note: dismissed
+- person_id: philipp_navratil
+  company_id: NESN
+  role: CEO
+  founder: false
+  start: '2025-09-02'
+  end: null
+  wiki_pages:
+    en: Philipp_Navratil
+  aliases:
+  - philipp navratil
+  wikidata: Q136051736
+  source_check: draft, differs from wikidata
+- person_id: paul_polman
+  company_id: ULVR
+  role: CEO
+  founder: false
+  start: '2009-01-01'
+  end: '2018-12-31'
+  wiki_pages:
+    en: Paul_Polman
+  aliases:
+  - paul polman
+  - paulus gerardus josephus maria polman
+  wikidata: Q2061703
+  source_check: wikidata+draft
+- person_id: alan_jope
+  company_id: ULVR
+  role: CEO
+  founder: false
+  start: '2019-01-01'
+  end: '2023-06-30'
+  wiki_pages:
+    en: Alan_Jope
+  aliases:
+  - alan jope
+  wikidata: Q59306324
+  source_check: wikidata+draft
+- person_id: hein_schumacher
+  company_id: ULVR
+  role: CEO
+  founder: false
+  start: '2023-07-01'
+  end: '2025-02-28'
+  wiki_pages:
+    en: Hein_Schumacher
+  aliases:
+  - hein schumacher
+  wikidata: Q116501956
+  source_check: wikidata+draft
+  note: replaced abruptly
+- person_id: fernando_fernandez
+  company_id: ULVR
+  role: CEO
+  founder: false
+  start: '2025-03-01'
+  end: null
+  wiki_pages: {}
+  aliases:
+  - fernando fernandez
+  wikidata: null
+  source_check: draft, not in wikidata
+  note: no English page found
+- person_id: joe_kaeser
+  company_id: SIE
+  role: CEO
+  founder: false
+  start: '2013-08-01'
+  end: '2021-02-02'
+  wiki_pages:
+    en: Joe_Kaeser
+    de: Joe_Kaeser
+  aliases:
+  - joe kaeser
+  - josef käser
+  - josef kaser
+  wikidata: Q103859
+  source_check: draft, not in wikidata
+- person_id: roland_busch
+  company_id: SIE
+  role: CEO
+  founder: false
+  start: '2021-02-03'
+  end: null
+  wiki_pages:
+    en: Roland_Busch
+    de: Roland_Busch
+  aliases:
+  - roland busch
+  wikidata: Q66438345
+  source_check: wikidata+draft
+- person_id: jean_paul_agon
+  company_id: OR
+  role: CEO
+  founder: false
+  start: '2006-04-25'
+  end: '2021-04-30'
+  wiki_pages:
+    en: Jean-Paul_Agon
+    fr: Jean-Paul_Agon
+  aliases:
+  - jean-paul agon
+  wikidata: Q195993
+  source_check: draft, not in wikidata
+- person_id: nicolas_hieronimus
+  company_id: OR
+  role: CEO
+  founder: false
+  start: '2021-05-01'
+  end: null
+  wiki_pages:
+    en: Nicolas_Hieronimus
+    fr: Nicolas_Hieronimus
+  aliases:
+  - nicolas hieronimus
+  wikidata: Q33119793
+  source_check: wikidata+draft
+- person_id: jean_pascal_tricoire
+  company_id: SU
+  role: CEO
+  founder: false
+  start: '2006-05-03'
+  end: '2023-05-03'
+  wiki_pages:
+    en: Jean-Pascal_Tricoire
+    fr: Jean-Pascal_Tricoire
+  aliases:
+  - jean-pascal tricoire
+  - mr jean-pascal tricoire
+  wikidata: Q3168302
+  source_check: draft, differs from wikidata
+- person_id: peter_herweck
+  company_id: SU
+  role: CEO
+  founder: false
+  start: '2023-05-04'
+  end: '2024-11-12'
+  wiki_pages: {}
+  aliases:
+  - peter herweck
+  wikidata: Q107420160
+  source_check: wikidata+draft
+  note: dismissed, no English page
+- person_id: olivier_blum
+  company_id: SU
+  role: CEO
+  founder: false
+  start: '2024-11-13'
+  end: null
+  wiki_pages:
+    fr: Olivier_Blum
+  aliases:
+  - olivier blum
+  wikidata: Q140697703
+  source_check: draft, not in wikidata
+  note: no English page
+- person_id: chris_viehbacher
+  company_id: SAN
+  role: CEO
+  founder: false
+  start: '2008-12-01'
+  end: '2014-10-29'
+  wiki_pages:
+    en: Chris_Viehbacher
+    fr: Christopher_Viehbacher
+  aliases:
+  - chris viehbacher
+  - christopher a. viehbacher
+  wikidata: Q1086450
+  source_check: draft, not in wikidata
+  note: dismissed
+- person_id: olivier_brandicourt
+  company_id: SAN
+  role: CEO
+  founder: false
+  start: '2015-04-02'
+  end: '2019-08-31'
+  wiki_pages:
+    en: Olivier_Brandicourt
+    fr: Olivier_Brandicourt
+  aliases:
+  - olivier brandicourt
+  wikidata: Q19360238
+  source_check: wikidata+draft
+- person_id: paul_hudson
+  company_id: SAN
+  role: CEO
+  founder: false
+  start: '2019-09-01'
+  end: null
+  wiki_pages:
+    en: Paul_Hudson_(businessman)
+    fr: Paul_Hudson_(chef_d'entreprise)
+  aliases:
+  - paul hudson
+  wikidata: Q67029500
+  source_check: wikidata+draft
+- person_id: michael_diekmann
+  company_id: ALV
+  role: CEO
+  founder: false
+  start: '2003-04-29'
+  end: '2015-05-06'
+  wiki_pages:
+    en: Michael_Diekmann
+    de: Michael_Diekmann
+  aliases:
+  - michael diekmann
+  wikidata: Q101023
+  source_check: draft, not in wikidata
+- person_id: oliver_bate
+  company_id: ALV
+  role: CEO
+  founder: false
+  start: '2015-05-07'
+  end: null
+  wiki_pages:
+    en: Oliver_Bäte
+    de: Oliver_Bäte
+  aliases:
+  - oliver bäte
+  - oliver bate
+  wikidata: Q18221241
+  source_check: draft, not in wikidata
