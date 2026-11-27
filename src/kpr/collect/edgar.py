@@ -12,7 +12,9 @@ Owner: data session. Task D6 in PARALLEL_SESSIONS.md §7. Dossier §5.6.
   In a year with fewer than 3 such dates (Berkshire, Strategy publish results with the 10-Q),
   the 10-Q / 10-K filing dates are added (`source` = "edgar_10q_10k"; otherwise
   "edgar_8k_202"). `quarter` is the calendar quarter of the period most likely reported
-  (date minus 45 days).
+  (see kpr.collect.earnings.calendar_quarter). The dates go to
+  raw/edgar/earnings_edgar.parquet; the `earnings` table itself is written by
+  kpr.collect.earnings, which adds the manual dates (task D9).
 - Foreign private issuers (Shopify, Spotify, BioNTech) file 6-K without items: not covered
   here, they go to the manual template of task D9 with the European companies.
 - Item 5.02 filings (officer departures and appointments) are saved to
@@ -37,7 +39,8 @@ from kpr.collect.common import (
     load_params,
     load_universe,
 )
-from kpr.utils.io import raw_dir, write_table
+from kpr.collect.earnings import calendar_quarter, write_earnings
+from kpr.utils.io import raw_dir
 from kpr.utils.logging import get_logger
 
 log = get_logger(__name__)
@@ -69,12 +72,6 @@ def fetch_filings(session, cik: int) -> pd.DataFrame:
     df = pd.concat(frames, ignore_index=True)
     df["cik"] = cik
     return df
-
-
-def calendar_quarter(dates: pd.Series) -> pd.Series:
-    """Calendar quarter of the period most likely reported by a release on `dates`."""
-    shifted = dates - pd.DateOffset(days=45)
-    return "Q" + shifted.dt.quarter.astype(str)
 
 
 def select_items(filings: pd.DataFrame, item: str) -> pd.DataFrame:
@@ -146,7 +143,8 @@ def main(argv: list[str] | None = None) -> int:
     period = load_params()["period"]
     companies = load_universe()
     earnings, officers = build(companies, period["start"], period["end"])
-    write_table(earnings, "earnings")
+    earnings.to_parquet(raw_dir("edgar") / "earnings_edgar.parquet", index=False)
+    write_earnings()  # the earnings table = EDGAR + manual CSV (task D9)
     officers.to_csv(raw_dir("edgar") / "officer_changes.csv", index=False)
     counts = check_counts(earnings)
     odd = counts[(counts < 3) | (counts > 6)]
