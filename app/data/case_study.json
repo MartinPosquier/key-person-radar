@@ -1,0 +1,10 @@
+{
+  "title": "Demo: Alex Alpha, 31 July 2020",
+  "person_id": "p_alpha",
+  "company_id": "FAKE1",
+  "event_date": "2020-07-31",
+  "story": "Placeholder story on synthetic data. The real Nvidia 2026 case (dossier \u00a711.6) replaces it with the final results.",
+  "predicted_car": -0.013948020808830107,
+  "actual_car": -0.06367049557319887,
+  "demo": true
+}
