@@ -19,6 +19,8 @@ scores:                                             # dossier §3.3-3.5, §10
 selection:                                          # dossier §9.6
   stability_bootstrap: 100
   stability_threshold: 0.8
+  k_features: 10                                    # features kept by filter, mRMR and RFE
+  rf_trees: 200                                     # forest inside RFE
 finbert:
   model: ProsusAI/finbert
   batch_size: 32
