@@ -10,7 +10,14 @@ wikipedia:
 gdelt:
   min_articles_for_tone: 3
   max_share_of_free_quota: 0.5                      # decision rule of task D5
+  free_quota_tib: 1.0                               # BigQuery free tier: 1 TiB scanned per month
+  max_bytes_per_query_gb: 200                       # maximum_bytes_billed of each yearly query
 quality:                                            # dossier §6.7
   max_missing_share_views: 0.05
   ret_min: -0.8
   ret_max: 2.0
+cleaning:                                           # dossier §6.4, task D10
+  flag_abs_return: 0.40                             # daily moves listed for a manual look
+  spike_z: 5.0                                      # robust z of log views = suspected robot spike
+  confirm_z: 2.0                                    # ...unless GDELT or the local page moves too
+  spike_window: 60                                  # days of history for the robust z-score
