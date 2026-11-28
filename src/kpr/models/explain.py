@@ -167,9 +167,9 @@ def load_pipes(feat_cols: list[str], train: pd.DataFrame, target: str = "car_sig
     """Tree and Lasso pipelines of M7 (best tree model by validation MAE), or quick fits."""
     import joblib
 
-    models = data_dir() / "processed" / "models"
-    comparison = models / "model_comparison.csv"
-    if not use_fixtures() and comparison.exists():
+    models = None if use_fixtures() else data_dir() / "processed" / "models"
+    comparison = models / "model_comparison.csv" if models is not None else None
+    if comparison is not None and comparison.exists():
         comp = pd.read_csv(comparison).query("target == @target and model in ['rf', 'hgb']")
         tree = comp.sort_values("mae")["model"].iloc[0]
         log.info("SHAP on the best tree model of M7: %s", tree)
