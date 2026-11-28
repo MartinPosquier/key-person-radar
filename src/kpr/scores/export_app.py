@@ -181,9 +181,10 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     tables = {n: read_table(n) for n in ("scores", "events", "mandates", "panel", "prices",
                                          "market")}
-    case_path = data_dir() / "processed" / "validation" / "case_nvidia.json"
+    case_path = None if use_fixtures() else (
+        data_dir() / "processed" / "validation" / "case_nvidia.json")
     case = (json.loads(case_path.read_text(encoding="utf-8"))
-            if case_path.exists() and not use_fixtures() else None)
+            if case_path is not None and case_path.exists() else None)
     car_pred = None if use_fixtures() else best_model_predictions(tables["events"])
     export(args.out or APP_DATA, tables, _yaml_list("persons.yaml", "persons"),
            _yaml_list("universe.yaml", "companies"), car_pred, case,
