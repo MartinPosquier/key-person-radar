@@ -1,7 +1,7 @@
 # Status: data
 Updated: 2026-11-27
-Current: not started
-Done: none
-Blocked: waiting for chore/bootstrap to be merged
+Current: D1 universe (branch data/universe), PR open
+Done: D1 (PR open)
+Blocked: every data branch is built on chore/bootstrap until PR #1 (Phase 0) is merged
 Needs from others: none
-Next: first task of PARALLEL_SESSIONS.md §7 for this session
+Next: D2 (Wikidata mandates, persons.yaml)
