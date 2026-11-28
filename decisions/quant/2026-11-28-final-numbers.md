@@ -1,0 +1,10 @@
+Date: 2026-11-28
+Session: quant
+Decision: the numbers of docs/final/02 come from one script (Q13); the markdown file itself is filled in week 4 on real data
+- Script: scripts/quant_final_numbers.py (logic in kpr.validation.final_numbers, tested on fixtures) writes docs/final/numbers/quant.json, one flat object keyed by the placeholders of file 02, plus a natural_experiments list (section 2.5) and _meta. With KPR_USE_FIXTURES=1 it prints and writes nothing unless --out is given, so no fixture number can reach docs/final (README: "No number typed by hand").
+- Funnel: filters applied in the order of file 02 (earnings, company-driven news, extreme market, short history), then two extra steps the code also applies: missing returns and the 10-session split gap (split_gap). An event failing several filters is counted at the first one, so removed counts add up to the detected total; n_flagged_* give each filter on its own and largest_filter says which removed the most. n_events_usable = kept after all six steps; n_after_history is the count after the four steps listed in the file. The week-4 text adds the two extra rows to the funnel table.
+- Event study numbers: kept, non-reserved events, test split left out unless --include-test (to be passed in week 4, after the single test run M12), consistent with the Q7 decision.
+- Split sizes: n_<split> = kept events, n_<split>_detected = all. CV fold counts = kept train events by J0 year, before the ml harness's inner gap (exact fold sizes belong in numbers/ml.json).
+- Comparability: share of negative shocks, share of US companies (universe.yaml region) and mean VIX on J0 (last VIX before J0 when J0 is a US holiday), per split.
+- test_opened_on: date prefix of the decisions/ml/ file that mentions M12, or null.
+Why: CLAUDE.md rule 11 and docs/final/README.md (fill in week 4 only, every figure from numbers/<area>.json). Writing the script now, on fixtures (rule 10), checks that the events table keeps every count file 02 needs: it does, through excluded and the ';'-joined exclusion_reason.
