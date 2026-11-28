@@ -1,5 +1,8 @@
 """Owner: data session. FNSPID streaming subset (tasks D8, D12)."""
 
+import os
+import tempfile
+
 from kpr.collect.fnspid import subset
 
 CSV = """Unnamed: 0,Date,Article_title,Stock_symbol,Url,Publisher,Author,Article
@@ -10,9 +13,13 @@ multi-line text"
 """
 
 
-def test_subset_keeps_our_tickers_and_titles_naming_a_person(tmp_path):
-    path = tmp_path / "f.csv"
-    path.write_text(CSV, encoding="utf-8")
-    df = subset(str(path), {"NVDA"}, ["jensen huang"])
+def test_subset_keeps_our_tickers_and_titles_naming_a_person():
+    fd, path = tempfile.mkstemp(suffix=".csv")
+    with os.fdopen(fd, "w", encoding="utf-8", newline="") as fh:
+        fh.write(CSV)
+    try:
+        df = subset(path, {"NVDA"}, ["jensen huang"])
+    finally:
+        os.remove(path)
     assert df["url"].tolist() == ["u1", "u2"]
     assert str(df["date_utc"].iloc[0]) == "2023-12-16 23:00:00"
