@@ -1,13 +1,678 @@
-# Owner: data session (task D1). 60 companies of dossier §4.2, every ticker checked on yfinance.
+# Owner: data session (task D1). 60 companies of dossier §4.2, every ticker checked on yfinance
+# and every Wikipedia title checked (redirects resolved) by scripts/data_check_universe.py.
 # One entry per company:
 # - company_id: NVDA            # stable id, used everywhere
 #   name: Nvidia
 #   ticker: NVDA                # yfinance ticker
-#   region: US                  # US | EU
+#   region: US                  # US | EU (listing venue, drives the market index)
 #   exchange: XNYS              # XNYS | XNAS | XPAR | XETR | XAMS | XLON | XMIL | XSWX | XCSE | XDUB
 #   market_index: "^GSPC"       # S&P 500 for US, STOXX Europe 600 for EU
 #   sector: Semiconductors
-#   wiki_pages: {en: Nvidia}
+#   wiki_pages: {en: Nvidia}    # canonical titles; local language added for EU companies
 #   trends_entity: "Nvidia"
 #   group: media                # media | control
-companies: []
+#   sec_ciks: [1018724]         # optional: SEC CIKs of 8-K filers, oldest first (task D6)
+#   former_tickers: [SQ]        # optional: old tickers, used for share counts reported before a change
+#   notes: free text            # optional
+companies:
+  # ---- media group, US listings -----------------------------------------------------------
+  - company_id: TSLA
+    name: Tesla
+    ticker: TSLA
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Automobiles
+    wiki_pages: {en: "Tesla,_Inc."}
+    trends_entity: "Tesla"
+    group: media
+    sec_ciks: [1318605]
+  - company_id: NVDA
+    name: Nvidia
+    ticker: NVDA
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Semiconductors
+    wiki_pages: {en: Nvidia}
+    trends_entity: "Nvidia"
+    group: media
+    sec_ciks: [1045810]
+    notes: "2026 case study (Q12) is outside the 2014-2025 period"
+  - company_id: META
+    name: Meta Platforms
+    ticker: META
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Interactive Media
+    wiki_pages: {en: Meta_Platforms}
+    trends_entity: "Meta Platforms"
+    group: media
+    sec_ciks: [1326801]
+    notes: "Facebook, Inc. until 2021-10-28"
+  - company_id: AMZN
+    name: Amazon
+    ticker: AMZN
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Internet Retail
+    wiki_pages: {en: Amazon_(company)}
+    trends_entity: "Amazon"
+    group: media
+    sec_ciks: [1018724]
+  - company_id: AAPL
+    name: Apple
+    ticker: AAPL
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Technology Hardware
+    wiki_pages: {en: Apple_Inc.}
+    trends_entity: "Apple Inc."
+    group: media
+    sec_ciks: [320193]
+  - company_id: MSFT
+    name: Microsoft
+    ticker: MSFT
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Software
+    wiki_pages: {en: Microsoft}
+    trends_entity: "Microsoft"
+    group: media
+    sec_ciks: [789019]
+  - company_id: GOOGL
+    name: Alphabet
+    ticker: GOOGL
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Interactive Media
+    wiki_pages: {en: Alphabet_Inc.}
+    trends_entity: "Google"
+    group: media
+    sec_ciks: [1288776, 1652044]
+    notes: "Class A shares; Alphabet created 2015-10-02, earlier history is Google Inc."
+  - company_id: NFLX
+    name: Netflix
+    ticker: NFLX
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Entertainment
+    wiki_pages: {en: Netflix}
+    trends_entity: "Netflix"
+    group: media
+    sec_ciks: [1065280]
+  - company_id: BRK
+    name: Berkshire Hathaway
+    ticker: BRK-B
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Diversified Financials
+    wiki_pages: {en: Berkshire_Hathaway}
+    trends_entity: "Berkshire Hathaway"
+    group: media
+    sec_ciks: [1067983]
+  - company_id: JPM
+    name: JPMorgan Chase
+    ticker: JPM
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Banks
+    wiki_pages: {en: JPMorgan_Chase}
+    trends_entity: "JPMorgan Chase"
+    group: media
+    sec_ciks: [19617]
+  - company_id: ORCL
+    name: Oracle
+    ticker: ORCL
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Software
+    wiki_pages: {en: Oracle_Corporation}
+    trends_entity: "Oracle Corporation"
+    group: media
+    sec_ciks: [1341439]
+  - company_id: PLTR
+    name: Palantir
+    ticker: PLTR
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Software
+    wiki_pages: {en: Palantir}
+    trends_entity: "Palantir"
+    group: media
+    sec_ciks: [1321655]
+    notes: "Listed 2020-09-30 (NYSE), moved to Nasdaq 2024-11-26"
+  - company_id: COIN
+    name: Coinbase
+    ticker: COIN
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Capital Markets
+    wiki_pages: {en: Coinbase}
+    trends_entity: "Coinbase"
+    group: media
+    sec_ciks: [1679788]
+    notes: "Listed 2021-04-14"
+  - company_id: MSTR
+    name: Strategy (ex-MicroStrategy)
+    ticker: MSTR
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Software
+    wiki_pages: {en: MicroStrategy}
+    trends_entity: "MicroStrategy"
+    group: media
+    sec_ciks: [1050446]
+  - company_id: AMD
+    name: AMD
+    ticker: AMD
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Semiconductors
+    wiki_pages: {en: AMD}
+    trends_entity: "AMD"
+    group: media
+    sec_ciks: [2488]
+  - company_id: CRM
+    name: Salesforce
+    ticker: CRM
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Software
+    wiki_pages: {en: Salesforce}
+    trends_entity: "Salesforce"
+    group: media
+    sec_ciks: [1108524]
+  - company_id: DIS
+    name: Disney
+    ticker: DIS
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Entertainment
+    wiki_pages: {en: The_Walt_Disney_Company}
+    trends_entity: "The Walt Disney Company"
+    group: media
+    sec_ciks: [1001039, 1744489]
+  - company_id: BA
+    name: Boeing
+    ticker: BA
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Aerospace & Defense
+    wiki_pages: {en: Boeing}
+    trends_entity: "Boeing"
+    group: media
+    sec_ciks: [12927]
+    notes: "737 MAX crises: many company-level shocks, watch confusions (dossier §4.2)"
+  - company_id: SBUX
+    name: Starbucks
+    ticker: SBUX
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Restaurants
+    wiki_pages: {en: Starbucks}
+    trends_entity: "Starbucks"
+    group: media
+    sec_ciks: [829224]
+  - company_id: GME
+    name: GameStop
+    ticker: GME
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Specialty Retail
+    wiki_pages: {en: GameStop}
+    trends_entity: "GameStop"
+    group: media
+    sec_ciks: [1326380]
+    notes: "Strong meme-stock component (2021)"
+  - company_id: XYZ
+    name: Block
+    ticker: XYZ
+    former_tickers: [SQ]
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Financial Services
+    wiki_pages: {en: "Block,_Inc."}
+    trends_entity: "Block Inc"
+    group: media
+    sec_ciks: [1512673]
+    notes: "Square, Inc. until 2021-12-10; ticker SQ until 2025-01-21"
+  - company_id: SHOP
+    name: Shopify
+    ticker: SHOP
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Software
+    wiki_pages: {en: Shopify}
+    trends_entity: "Shopify"
+    group: media
+    notes: "Canadian, NYSE line used; files 40-F/6-K, not 8-K"
+  - company_id: ABNB
+    name: Airbnb
+    ticker: ABNB
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Hotels & Leisure
+    wiki_pages: {en: Airbnb}
+    trends_entity: "Airbnb"
+    group: media
+    sec_ciks: [1559720]
+    notes: "Listed 2020-12-10"
+  - company_id: SNAP
+    name: Snap
+    ticker: SNAP
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Interactive Media
+    wiki_pages: {en: Snap_Inc.}
+    trends_entity: "Snap Inc."
+    group: media
+    sec_ciks: [1564408]
+    notes: "Listed 2017-03-02"
+  - company_id: INTC
+    name: Intel
+    ticker: INTC
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Semiconductors
+    wiki_pages: {en: Intel}
+    trends_entity: "Intel"
+    group: media
+    sec_ciks: [50863]
+  - company_id: BLK
+    name: BlackRock
+    ticker: BLK
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Capital Markets
+    wiki_pages: {en: BlackRock}
+    trends_entity: "BlackRock"
+    group: media
+    sec_ciks: [1364742, 2012383]
+  - company_id: GS
+    name: Goldman Sachs
+    ticker: GS
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Capital Markets
+    wiki_pages: {en: Goldman_Sachs}
+    trends_entity: "Goldman Sachs"
+    group: media
+    sec_ciks: [886982]
+  - company_id: HOOD
+    name: Robinhood
+    ticker: HOOD
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Capital Markets
+    wiki_pages: {en: Robinhood_(company)}
+    trends_entity: "Robinhood"
+    group: media
+    sec_ciks: [1783879]
+    notes: "Listed 2021-07-29"
+  - company_id: SPOT
+    name: Spotify
+    ticker: SPOT
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Entertainment
+    wiki_pages: {en: Spotify}
+    trends_entity: "Spotify"
+    group: media
+    notes: "Listed 2018-04-03; foreign private issuer (6-K, not 8-K)"
+  - company_id: BNTX
+    name: BioNTech
+    ticker: BNTX
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Biotechnology
+    wiki_pages: {en: BioNTech, de: Biontech}
+    trends_entity: "BioNTech"
+    group: media
+    notes: "Listed 2019-10-10 (ADS); foreign private issuer (6-K, not 8-K)"
+  # ---- media group, European listings -----------------------------------------------------
+  - company_id: MC
+    name: LVMH
+    ticker: MC.PA
+    region: EU
+    exchange: XPAR
+    market_index: "^STOXX"
+    sector: Luxury Goods
+    wiki_pages: {en: LVMH, fr: LVMH_-_Moët_Hennessy_Louis_Vuitton}
+    trends_entity: "LVMH"
+    group: media
+  - company_id: TTE
+    name: TotalEnergies
+    ticker: TTE.PA
+    region: EU
+    exchange: XPAR
+    market_index: "^STOXX"
+    sector: Oil & Gas
+    wiki_pages: {en: TotalEnergies, fr: TotalEnergies}
+    trends_entity: "TotalEnergies"
+    group: media
+    notes: "Total S.A. until 2021-05-28; hypothesis H5 (compare with XOM)"
+  - company_id: KER
+    name: Kering
+    ticker: KER.PA
+    region: EU
+    exchange: XPAR
+    market_index: "^STOXX"
+    sector: Luxury Goods
+    wiki_pages: {en: Kering, fr: Kering}
+    trends_entity: "Kering"
+    group: media
+  - company_id: RNO
+    name: Renault
+    ticker: RNO.PA
+    region: EU
+    exchange: XPAR
+    market_index: "^STOXX"
+    sector: Automobiles
+    wiki_pages: {en: Renault, fr: Renault_Group}
+    trends_entity: "Renault"
+    group: media
+    notes: "Ghosn arrest 2018-11-19: natural experiment"
+  - company_id: STLAM
+    name: Stellantis
+    ticker: STLAM.MI
+    region: EU
+    exchange: XMIL
+    market_index: "^STOXX"
+    sector: Automobiles
+    wiki_pages: {en: Stellantis, fr: Stellantis, it: Stellantis}
+    trends_entity: "Stellantis"
+    group: media
+    notes: "Formed 2021-01-16 from FCA and PSA; yfinance history before 2021-01-18 is FCA, so Tavares at PSA (2014-2020) has no price series here"
+  - company_id: VOW3
+    name: Volkswagen
+    ticker: VOW3.DE
+    region: EU
+    exchange: XETR
+    market_index: "^STOXX"
+    sector: Automobiles
+    wiki_pages: {en: Volkswagen_Group, de: Volkswagen_AG}
+    trends_entity: "Volkswagen"
+    group: media
+    notes: "Dieselgate 2015 is a company shock, not a person shock (dossier §4.2)"
+  - company_id: RYA
+    name: Ryanair
+    ticker: RYA.IR
+    region: EU
+    exchange: XDUB
+    market_index: "^STOXX"
+    sector: Airlines
+    wiki_pages: {en: Ryanair}
+    trends_entity: "Ryanair"
+    group: media
+  - company_id: UBI
+    name: Ubisoft
+    ticker: UBI.PA
+    region: EU
+    exchange: XPAR
+    market_index: "^STOXX"
+    sector: Entertainment
+    wiki_pages: {en: Ubisoft, fr: Ubisoft}
+    trends_entity: "Ubisoft"
+    group: media
+  - company_id: BN
+    name: Danone
+    ticker: BN.PA
+    region: EU
+    exchange: XPAR
+    market_index: "^STOXX"
+    sector: Food Products
+    wiki_pages: {en: Danone, fr: Danone}
+    trends_entity: "Danone"
+    group: media
+  - company_id: NOVO
+    name: Novo Nordisk
+    ticker: NOVO-B.CO
+    region: EU
+    exchange: XCSE
+    market_index: "^STOXX"
+    sector: Pharmaceuticals
+    wiki_pages: {en: Novo_(company), da: Novo_Nordisk}
+    notes: "en page moved from Novo_Nordisk to Novo_(company); older views sit on the redirect title"
+    trends_entity: "Novo Nordisk"
+    group: media
+  - company_id: BP
+    name: BP
+    ticker: BP.L
+    region: EU
+    exchange: XLON
+    market_index: "^STOXX"
+    sector: Oil & Gas
+    wiki_pages: {en: BP}
+    trends_entity: "BP"
+    group: media
+    notes: "Prices in GBp (pence); returns unaffected"
+  - company_id: SAP
+    name: SAP
+    ticker: SAP.DE
+    region: EU
+    exchange: XETR
+    market_index: "^STOXX"
+    sector: Software
+    wiki_pages: {en: SAP, de: SAP}
+    trends_entity: "SAP SE"
+    group: media
+  - company_id: ASML
+    name: ASML
+    ticker: ASML.AS
+    region: EU
+    exchange: XAMS
+    market_index: "^STOXX"
+    sector: Semiconductors
+    wiki_pages: {en: ASML, nl: ASML}
+    trends_entity: "ASML"
+    group: media
+  - company_id: AIR
+    name: Airbus
+    ticker: AIR.PA
+    region: EU
+    exchange: XPAR
+    market_index: "^STOXX"
+    sector: Aerospace & Defense
+    wiki_pages: {en: Airbus, fr: Airbus_(société)}
+    trends_entity: "Airbus"
+    group: media
+  - company_id: UBSG
+    name: UBS
+    ticker: UBSG.SW
+    region: EU
+    exchange: XSWX
+    market_index: "^STOXX"
+    sector: Banks
+    wiki_pages: {en: UBS, de: UBS}
+    trends_entity: "UBS"
+    group: media
+  - company_id: DBK
+    name: Deutsche Bank
+    ticker: DBK.DE
+    region: EU
+    exchange: XETR
+    market_index: "^STOXX"
+    sector: Banks
+    wiki_pages: {en: Deutsche_Bank, de: Deutsche_Bank}
+    trends_entity: "Deutsche Bank"
+    group: media
+  # ---- control group (discreet leaders), US listings --------------------------------------
+  - company_id: PG
+    name: Procter & Gamble
+    ticker: PG
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Household Products
+    wiki_pages: {en: Procter_&_Gamble}
+    trends_entity: "Procter & Gamble"
+    group: control
+    sec_ciks: [80424]
+  - company_id: JNJ
+    name: Johnson & Johnson
+    ticker: JNJ
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Pharmaceuticals
+    wiki_pages: {en: Johnson_&_Johnson}
+    trends_entity: "Johnson & Johnson"
+    group: control
+    sec_ciks: [200406]
+  - company_id: KO
+    name: Coca-Cola
+    ticker: KO
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Beverages
+    wiki_pages: {en: The_Coca-Cola_Company}
+    trends_entity: "The Coca-Cola Company"
+    group: control
+    sec_ciks: [21344]
+  - company_id: V
+    name: Visa
+    ticker: V
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Financial Services
+    wiki_pages: {en: Visa_Inc.}
+    trends_entity: "Visa Inc."
+    group: control
+    sec_ciks: [1403161]
+  - company_id: XOM
+    name: Exxon Mobil
+    ticker: XOM
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Oil & Gas
+    wiki_pages: {en: ExxonMobil}
+    trends_entity: "ExxonMobil"
+    group: control
+    sec_ciks: [34088]
+    notes: "Compare with TotalEnergies (H5)"
+  - company_id: HD
+    name: Home Depot
+    ticker: HD
+    region: US
+    exchange: XNYS
+    market_index: "^GSPC"
+    sector: Specialty Retail
+    wiki_pages: {en: Home_Depot}
+    trends_entity: "The Home Depot"
+    group: control
+    sec_ciks: [354950]
+  - company_id: PEP
+    name: PepsiCo
+    ticker: PEP
+    region: US
+    exchange: XNAS
+    market_index: "^GSPC"
+    sector: Beverages
+    wiki_pages: {en: PepsiCo}
+    trends_entity: "PepsiCo"
+    group: control
+    sec_ciks: [77476]
+  # ---- control group, European listings ---------------------------------------------------
+  - company_id: NESN
+    name: Nestlé
+    ticker: NESN.SW
+    region: EU
+    exchange: XSWX
+    market_index: "^STOXX"
+    sector: Food Products
+    wiki_pages: {en: Nestlé, fr: Nestlé}
+    trends_entity: "Nestlé"
+    group: control
+  - company_id: ULVR
+    name: Unilever
+    ticker: ULVR.L
+    region: EU
+    exchange: XLON
+    market_index: "^STOXX"
+    sector: Household Products
+    wiki_pages: {en: Unilever}
+    trends_entity: "Unilever"
+    group: control
+    notes: "Prices in GBp (pence)"
+  - company_id: SIE
+    name: Siemens
+    ticker: SIE.DE
+    region: EU
+    exchange: XETR
+    market_index: "^STOXX"
+    sector: Industrial Conglomerates
+    wiki_pages: {en: Siemens, de: Siemens}
+    trends_entity: "Siemens"
+    group: control
+  - company_id: OR
+    name: L'Oréal
+    ticker: OR.PA
+    region: EU
+    exchange: XPAR
+    market_index: "^STOXX"
+    sector: Personal Products
+    wiki_pages: {en: L'Oréal, fr: L'Oréal}
+    trends_entity: "L'Oréal"
+    group: control
+  - company_id: SU
+    name: Schneider Electric
+    ticker: SU.PA
+    region: EU
+    exchange: XPAR
+    market_index: "^STOXX"
+    sector: Electrical Equipment
+    wiki_pages: {en: Schneider_Electric, fr: Schneider_Electric}
+    trends_entity: "Schneider Electric"
+    group: control
+  - company_id: SAN
+    name: Sanofi
+    ticker: SAN.PA
+    region: EU
+    exchange: XPAR
+    market_index: "^STOXX"
+    sector: Pharmaceuticals
+    wiki_pages: {en: Sanofi, fr: Sanofi}
+    trends_entity: "Sanofi"
+    group: control
+  - company_id: ALV
+    name: Allianz
+    ticker: ALV.DE
+    region: EU
+    exchange: XETR
+    market_index: "^STOXX"
+    sector: Insurance
+    wiki_pages: {en: Allianz, de: Allianz}
+    trends_entity: "Allianz"
+    group: control
