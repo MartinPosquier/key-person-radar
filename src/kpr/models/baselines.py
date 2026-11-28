@@ -104,7 +104,7 @@ def summarise(pred: pd.DataFrame, target: str) -> dict[str, float]:
             "rmse": float(np.sqrt(np.mean((y - p) ** 2))), "r2": r2_score(y, p)}
 
 
-def _load_features(events: pd.DataFrame) -> pd.DataFrame:
+def load_features(events: pd.DataFrame) -> pd.DataFrame:
     features = read_table("features")
     if not family_columns(features.columns, "E_market"):
         # The frozen fixture holds only 5 columns: rebuild the full matrix in memory.
@@ -153,7 +153,7 @@ def main(argv: list[str] | None = None) -> int:
         params["cv"]["first_train_end_year"] = args.first_train_end_year
 
     events = read_table("events")
-    results = run(events, _load_features(events), params)
+    results = run(events, load_features(events), params)
     with pd.option_context("display.width", 140, "display.max_columns", 20):
         log.info("baselines:\n%s", results.round(5).to_string(index=False))
     if use_fixtures():
