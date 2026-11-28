@@ -1,0 +1,269 @@
+From: data
+To: user
+Need: manual check of the mandates in config/persons.yaml (task D2, dossier §4.4 step 5 and §5.6)
+Why: Wikidata is incomplete; dates decide succession resets and natural experiments
+Urgency: medium (collectors run on the draft; dates matter from D11 / Q4 on)
+
+How: for each line below, check the dates (Wikipedia page of the person, company press release or 8-K item 5.02), fix `start` / `end` in config/persons.yaml if needed and set `source_check: manual`. Lines are sorted by company.
+
+## Mandates whose draft dates differ from Wikidata
+
+- [ ] AAPL `tim_cook` CEO draft 2011-08-24 .. null; wikidata 2011-08-24 (day) .. 2026-08-31
+- [ ] ABNB `brian_chesky` CEO draft 2008-08-01 .. null; wikidata 2008-01-01 (year) .. null
+- [ ] AMZN `jeff_bezos` CEO draft 1994-07-05 .. 2021-07-04; wikidata 1996-05-01 (month) .. 2021-07-05
+- [ ] BNTX `ugur_sahin` CEO draft 2008-06-02 .. null; wikidata 2008-01-01 (year) .. null
+- [ ] BP `murray_auchincloss` CEO draft 2023-09-12 .. 2025-12-01; wikidata 2024-01-01 (month) .. 2025-12-01
+- [ ] BP `bernard_looney` CEO draft 2020-02-05 .. 2023-09-11; wikidata 2020-02-05 (day) .. 2023-12-13
+- [ ] COIN `brian_armstrong` CEO draft 2012-06-01 .. null; wikidata nan (nan) .. null
+- [ ] DBK `christian_sewing` CEO draft 2018-04-08 .. null; wikidata nan (nan) .. null
+- [ ] DIS `bob_chapek` CEO draft 2020-02-25 .. 2022-11-19; wikidata 2020-01-01 (year) .. 2022-01-01
+- [ ] DIS `bob_iger` CEO draft 2005-10-01 .. 2020-02-24; wikidata 2005-01-01 (year) .. 2020-01-01
+- [ ] DIS `bob_iger` CEO draft 2022-11-20 .. null; wikidata 2022-01-01 (year) .. 2026-01-01
+- [ ] GOOGL `larry_page` CEO draft 2011-04-04 .. 2019-12-02; wikidata 2015-08-10 (day) .. 2019-12-03
+- [ ] INTC `michelle_johnston_holthaus` CEO draft 2024-12-01 .. 2025-03-17; wikidata nan (nan) .. null
+- [ ] JPM `jamie_dimon` CEO draft 2005-12-31 .. null; wikidata 2004-01-01 (year) .. null
+- [ ] KER `francois_henri_pinault` CEO draft 2005-03-01 .. 2025-09-14; wikidata 2005-01-01 (year) .. 2025-09-14
+- [ ] KO `muhtar_kent` CEO draft 2008-07-01 .. 2017-04-30; wikidata 2008-01-01 (year) .. 2018-01-01
+- [ ] KO `james_quincey` CEO draft 2017-05-01 .. null; wikidata 2018-01-01 (year) .. null
+- [ ] MC `bernard_arnault` CEO draft 1989-01-13 .. null; wikidata 1987-01-01 (year) .. null
+- [ ] MSTR `michael_saylor` CEO draft 1989-11-17 .. 2022-08-07; wikidata 1989-01-01 (year) .. 2022-01-01
+- [ ] NESN `philipp_navratil` CEO draft 2025-09-02 .. null; wikidata 2025-01-01 (year) .. null
+- [ ] NESN `ulf_mark_schneider` CEO draft 2017-01-01 .. 2024-08-31; wikidata 2017-01-01 (year) .. 2024-01-01
+- [ ] NOVO `mike_doustdar` CEO draft 2025-08-07 .. null; wikidata nan (nan) .. null
+- [ ] NOVO `lars_fruergaard_jorgensen` CEO draft 2017-01-01 .. 2025-08-06; wikidata 2017-01-01 (day) .. null
+- [ ] NVDA `jensen_huang` CEO draft 1993-04-05 .. null; wikidata 1993-01-01 (year) .. 2026-11-12
+- [ ] ORCL `larry_ellison` chair draft 2014-09-18 .. null; wikidata nan (nan) .. null
+- [ ] PEP `indra_nooyi` CEO draft 2006-10-01 .. 2018-10-02; wikidata 2006-01-01 (year) .. 2018-01-01
+- [ ] PG `jon_moeller` CEO draft 2021-11-01 .. 2025-12-31; wikidata 2021-11-01 (day) .. null
+- [ ] PLTR `alex_karp` CEO draft 2004-01-01 .. null; wikidata nan (nan) .. null
+- [ ] RYA `michael_oleary` CEO draft 1994-01-01 .. null; wikidata 1994-01-01 (day) .. 2019-08-30
+- [ ] SBUX `howard_schultz` CEO draft 2022-04-04 .. 2023-03-19; wikidata 1982-01-01 (year) .. 2017-04-03
+- [ ] SBUX `kevin_johnson` CEO draft 2017-04-03 .. 2022-04-03; wikidata 2017-04-03 (day) .. 2023-04-01
+- [ ] SBUX `howard_schultz` CEO draft 2008-01-07 .. 2017-04-02; wikidata 1982-01-01 (year) .. 2017-04-03
+- [ ] SNAP `evan_spiegel` CEO draft 2012-01-01 .. null; wikidata 2011-01-01 (year) .. null
+- [ ] SU `jean_pascal_tricoire` CEO draft 2006-05-03 .. 2023-05-03; wikidata 2006-01-01 (year) .. 2023-05-04
+- [ ] TTE `christophe_de_margerie` CEO draft 2010-02-12 .. 2014-10-20; wikidata 2007-02-01 (month) .. 2014-10-20
+- [ ] UBI `yves_guillemot` CEO draft 1988-01-01 .. null; wikidata nan (nan) .. null
+- [ ] UBSG `sergio_ermotti` CEO draft 2011-11-15 .. 2020-10-31; wikidata 2011-11-15 (day) .. null
+- [ ] UBSG `sergio_ermotti` CEO draft 2023-04-05 .. null; wikidata 2011-11-15 (day) .. null
+- [ ] V `alfred_kelly` CEO draft 2016-12-01 .. 2023-01-31; wikidata 2019-01-01 (year) .. 2023-01-31
+
+## Mandates absent from Wikidata (draft only)
+
+- [ ] ALV `oliver_bate` CEO draft 2015-05-07 .. null
+- [ ] ALV `michael_diekmann` CEO draft 2003-04-29 .. 2015-05-06
+- [ ] AMD `rory_read` CEO draft 2011-08-25 .. 2014-10-07
+- [ ] AMZN `jeff_bezos` chair draft 2021-07-05 .. null (executive chair)
+- [ ] BN `antoine_de_saint_affrique` CEO draft 2021-09-15 .. null
+- [ ] BN `emmanuel_faber` CEO draft 2014-10-01 .. 2021-03-15 (ousted)
+- [ ] BN `franck_riboud` CEO draft 1996-05-01 .. 2014-09-30
+- [ ] BRK `warren_buffett` CEO draft 1970-05-10 .. 2025-12-31
+- [ ] BRK `greg_abel` other draft 2018-01-10 .. 2025-12-31 (vice chair, designated successor (2021))
+- [ ] DBK `anshu_jain` CEO draft 2012-06-01 .. 2015-06-30 (co-CEO)
+- [ ] DBK `john_cryan` CEO draft 2015-07-01 .. 2018-04-07 (co-CEO with Fitschen until 2016-05-19)
+- [ ] DBK `jurgen_fitschen` CEO draft 2012-06-01 .. 2016-05-19 (co-CEO)
+- [ ] DIS `bob_iger` other draft 2020-02-25 .. 2021-12-31 (executive chair)
+- [ ] GME `matt_furlong` CEO draft 2021-06-21 .. 2023-06-07 (no English page)
+- [ ] GME `paul_raines` CEO draft 2010-06-01 .. 2019-04-14 (no English page)
+- [ ] GME `ryan_cohen` CEO draft 2023-09-28 .. null
+- [ ] GME `ryan_cohen` chair draft 2021-06-09 .. null (board member from 2021-01-11)
+- [ ] GME `george_sherman` CEO draft 2019-04-15 .. 2021-06-20 (no English page)
+- [ ] GOOGL `sundar_pichai` other draft 2015-10-02 .. 2019-12-02 (CEO of the Google subsidiary)
+- [ ] GOOGL `sergey_brin` other draft 1998-09-04 .. null (president of Alphabet 2015-2019, then board member)
+- [ ] GOOGL `larry_page` other draft 2019-12-03 .. null (board member, controlling shareholder)
+- [ ] HOOD `vlad_tenev` CEO draft 2013-04-01 .. null
+- [ ] INTC `lip_bu_tan` CEO draft 2025-03-18 .. null
+- [ ] MSTR `phong_le` CEO draft 2022-08-08 .. null (no English page (redirects to the company))
+- [ ] MSTR `michael_saylor` chair draft 2022-08-08 .. null (executive chair)
+- [ ] NESN `paul_bulcke` CEO draft 2008-04-10 .. 2016-12-31
+- [ ] NESN `laurent_freixe` CEO draft 2024-09-01 .. 2025-09-01 (dismissed)
+- [ ] NFLX `greg_peters` CEO draft 2023-01-19 .. null (co-CEO)
+- [ ] NFLX `ted_sarandos` CEO draft 2020-07-16 .. null (co-CEO)
+- [ ] NFLX `reed_hastings` chair draft 2023-01-19 .. null (executive chair)
+- [ ] NFLX `reed_hastings` CEO draft 1998-01-01 .. 2023-01-18 (co-CEO with Sarandos from 2020-07-16)
+- [ ] OR `jean_paul_agon` CEO draft 2006-04-25 .. 2021-04-30
+- [ ] ORCL `safra_catz` CEO draft 2014-09-18 .. 2025-09-21 (co-CEO with Mark Hurd until 2019-09)
+- [ ] ORCL `mark_hurd` CEO draft 2014-09-18 .. 2019-09-10 (co-CEO, medical leave then death (2019-10-18))
+- [ ] ORCL `larry_ellison` CEO draft 1977-06-16 .. 2014-09-17
+- [ ] PG `david_taylor` CEO draft 2015-11-01 .. 2021-10-31
+- [ ] PG `a_g_lafley` CEO draft 2013-05-23 .. 2015-10-31
+- [ ] PLTR `peter_thiel` chair draft 2003-05-01 .. null
+- [ ] RNO `clotilde_delbos` CEO draft 2019-10-11 .. 2020-06-30 (interim)
+- [ ] RNO `luca_de_meo` CEO draft 2020-07-01 .. 2025-07-15
+- [ ] RNO `thierry_bollore` CEO draft 2019-01-24 .. 2019-10-10 (interim from 2018-11-20, ousted)
+- [ ] RNO `carlos_ghosn` CEO draft 2005-04-29 .. 2019-01-23 (arrested 2018-11-19)
+- [ ] SAN `chris_viehbacher` CEO draft 2008-12-01 .. 2014-10-29 (dismissed)
+- [ ] SAP `bill_mcdermott` CEO draft 2010-02-07 .. 2019-10-10 (co-CEO with Snabe until 2014-05-21)
+- [ ] SHOP `tobi_lutke` CEO draft 2008-01-01 .. null
+- [ ] SIE `joe_kaeser` CEO draft 2013-08-01 .. 2021-02-02
+- [ ] SPOT `daniel_ek` CEO draft 2006-04-23 .. 2025-12-31 (executive chair from 2026)
+- [ ] STLAM `mike_manley` CEO draft 2018-07-21 .. 2021-01-15 (FCA)
+- [ ] STLAM `sergio_marchionne` CEO draft 2004-06-01 .. 2018-07-20 (FCA, replaced days before his death)
+- [ ] SU `olivier_blum` CEO draft 2024-11-13 .. null (no English page)
+- [ ] UBSG `ralph_hamers` CEO draft 2020-11-01 .. 2023-04-04
+- [ ] ULVR `fernando_fernandez` CEO draft 2025-03-01 .. null (no English page found)
+- [ ] V `charles_scharf` CEO draft 2012-11-01 .. 2016-11-30
+
+## Wikidata CEOs or chairs of the period missing from the seed
+
+Add them to the seed of scripts/data_draft_persons.py if they matter.
+
+- AAPL chair Arthur D. Levinson (Q709063) 2011-11-15 .. null
+- AIR chair Denis Ranque (Q3022894) 2013-01-01 .. 2020-01-01
+- AIR chair René Obermann (Q1572591) 2020-01-01 .. 2026-10-01
+- BP CEO Carol Howle (Q142101590) 2025-12-18 .. 2026-03-31
+- BP chair Carl-Henric Svanberg (Q963421) 2010-01-01 .. 2018-12-31
+- BP chair Helge Lund (Q718292) 2018-12-31 .. null
+- DIS chair Susan Arnold (Q535362) 2023-01-11 .. null
+- RNO chair Jean-Dominique Senard (Q1684801) 2019-01-24 .. null
+- RYA CEO Eddie Wilson (Q24795213) 2019-08-30 .. null
+- RYA chair David Bonderman (Q5231533) nan .. 2020-05-31
+- STLAM chair John Elkann (Q284011) 2021-01-21 .. null
+- TSLA chair Robyn Denholm (Q58345040) 2018-11-01 .. null
+- UBSG chair Axel A. Weber (Q64689) nan .. null
+- ULVR chair Michael Treschow (Q552904) 2007-05-01 .. 2016-04-01
+- ULVR chair Marijn Dekkers (Q1898117) 2016-04-01 .. 2019-11-01
+- ULVR chair Nils Smedegaard Andersen (Q12329016) 2019-11-01 .. 2023-12-01
+- V chair John F. Lundgren (Q19663069) 2024-01-23 .. null
+- VOW3 chair Ferdinand Piëch (Q78713) 2002-01-01 .. 2015-01-01
+- VOW3 chair Berthold Huber (Q107234) 2015-01-01 .. 2015-01-01
+- VOW3 chair Hans Dieter Pötsch (Q15819363) 2015-01-01 .. null
+
+## Who each English page points to (spot homonyms)
+
+- `elon_musk`: Q317521, American businessman (born 1971)
+- `jensen_huang`: Q305177, Taiwanese-American entrepreneur and business executive; co-founder, President and CEO of Nvidia (born 1963)
+- `mark_zuckerberg`: Q36215, American Internet entrepreneur (born 1984)
+- `jeff_bezos`: Q312556, American business magnate (born 1964)
+- `andy_jassy`: Q41812531, American businessman
+- `tim_cook`: Q265852, American business executive, former Apple executive chairman
+- `steve_ballmer`: Q181162, American businessman, former chief executive officer of Microsoft
+- `satya_nadella`: Q7426870, Indian-American business executive and CEO of Microsoft
+- `larry_page`: Q4934, American computer scientist and Internet entrepreneur (born 1973)
+- `sergey_brin`: Q92764, American billionaire businessman (born 1973)
+- `sundar_pichai`: Q3503829, Indian-American business executive, CEO of Google LLC & Alphabet Inc.
+- `reed_hastings`: Q7306657, American entrepreneur and education philanthropist
+- `ted_sarandos`: Q19661212, American businessman
+- `greg_peters`: Q116632987, American businessman, co-CEO of Netflix
+- `warren_buffett`: Q47213, American investor, entrepreneur and businessman
+- `greg_abel`: Q47168572, Canadian businessman
+- `jamie_dimon`: Q922169, American banking executive
+- `larry_ellison`: Q92759, American internet entrepreneur and businessman (born 1944)
+- `safra_catz`: Q450628, Israeli-American business executive
+- `mark_hurd`: Q711976, American businessman, philanthropist and CEO of Oracle (1957–2019)
+- `alex_karp`: Q19560940, businessman, author
+- `peter_thiel`: Q705525, German-American entrepreneur and venture capitalist (born 1967)
+- `brian_armstrong`: Q64705310, American business executive and investor
+- `michael_saylor`: Q6831501, American business executive, entrepreneur, and philanthropist (born 1965)
+- `phong_le`: -, no Wikidata item
+- `lisa_su`: Q18207172, American business executive and electrical engineer
+- `rory_read`: Q7366944, American businessman
+- `marc_benioff`: Q1521908, American internet entrepreneur and philanthropist
+- `bob_iger`: Q532423, American businessman and CEO of The Walt Disney Company (born 1951)
+- `bob_chapek`: Q86408516, American businessman
+- `dennis_muilenburg`: Q20205127, American businessman, and former president, chairman, and chief executive officer of The Boeing Company
+- `dave_calhoun`: Q16727786, American businessperson and corporate director, President and CEO, The Boeing Company
+- `kelly_ortberg`: Q109767256, American businessperson and corporate director, retired Chief Executive Officer, Collins Aerospace
+- `howard_schultz`: Q472330, American businessman
+- `kevin_johnson`: Q6396617, American businessman
+- `laxman_narasimhan`: Q64745663, Indian-American business executive
+- `brian_niccol`: Q117249140, Chairman and CEO, Starbucks
+- `ryan_cohen`: Q55114633, entrepreneur
+- `george_sherman`: -, no Wikidata item
+- `paul_raines`: -, no Wikidata item
+- `matt_furlong`: -, no Wikidata item
+- `jack_dorsey`: Q335552, American computer scientist, entrepreneur and co-founder of Twitter
+- `tobi_lutke`: Q20684647, German entrepreneur and software developer
+- `brian_chesky`: Q4963341, American businessman & Co-founder and CEO of Airbnb
+- `evan_spiegel`: Q15439301, American businessman (born 1990)
+- `brian_krzanich`: Q12572999, American chemist, engineer, entrepreneur and businessman
+- `bob_swan`: Q55819738, American business executive
+- `pat_gelsinger`: Q7143480, American businessperson; former CEO of Intel
+- `michelle_johnston_holthaus`: Q131981722, American manager
+- `lip_bu_tan`: Q19561225, American businessman
+- `larry_fink`: Q3218882, American Billionaire Business Person and Board Member, Chairman and CEO of BlackRock
+- `lloyd_blankfein`: Q1359151, American business executive
+- `david_solomon`: Q29641838, American banker and DJ
+- `vlad_tenev`: Q56248473, Bulgarian-American entrepreneur and co-founder of Robinhood, a US-based financial services company
+- `bernard_arnault`: Q32055, French entrepreneur (born 1949)
+- `christophe_de_margerie`: Q346081, French businessman, CEO of Total S.A. from 2007 to his death in 2014
+- `patrick_pouyanne`: Q18342983, French businessperson and general director
+- `francois_henri_pinault`: Q1371822, French businessman (born 1962)
+- `luca_de_meo`: Q3264974, Italian businessman
+- `carlos_ghosn`: Q356719, French-Brazilian-Lebanese businessman
+- `thierry_bollore`: Q33262547, French businessman
+- `clotilde_delbos`: Q48441071, French businesswoman
+- `francois_provost`: Q135494457, CEO of Renault Group
+- `sergio_marchionne`: Q1229223, Italian businessman (1952–2018)
+- `mike_manley`: Q55698517, British businessman and former CEO of FCA (born 1964)
+- `carlos_tavares`: Q2939466, Portuguese businessman
+- `antonio_filosa`: Q134594834, Italian business executive (born 1973)
+- `martin_winterkorn`: Q68355, former Chairman of Volkswagen AG
+- `matthias_muller`: Q1910173, German manager; CEO of Volkswagen AG
+- `herbert_diess`: Q19285388, Austrian businessman
+- `oliver_blume`: Q21032599, German businessman
+- `michael_oleary`: Q597242, Irish businessman; CEO of Ryanair Group
+- `yves_guillemot`: Q3573697, French businessman and founder of Ubisoft
+- `franck_riboud`: Q984356, French businessman
+- `emmanuel_faber`: Q2378292, French entrepreneur
+- `antoine_de_saint_affrique`: Q106880989, French businessman (born 1964)
+- `lars_rebien_sorensen`: Q12323903, Danish businessperson
+- `lars_fruergaard_jorgensen`: Q28858458, former CEO of Novo Nordisk
+- `mike_doustdar`: Q135494805, CEO of Novo
+- `bob_dudley`: Q421864, Businessman and chemical engineer
+- `bernard_looney`: Q69703422, Irish businessman
+- `murray_auchincloss`: Q122443335, Canadian businessman
+- `daniel_ek`: Q901670, Swedish businessman (born 1983)
+- `bill_mcdermott`: Q862300, American businessman
+- `jennifer_morgan`: Q42867017, co-Chief Executive Officer at SAP SE
+- `christian_klein`: Q70623824, German manager (born 1980)
+- `peter_wennink`: Q96654591, Dutch business executive
+- `christophe_fouquet`: Q138786664, French business executive
+- `tom_enders`: Q95307, German businessman
+- `guillaume_faury`: Q33158035, French engineer and executive, CEO Airbus
+- `sergio_ermotti`: Q117289, Swiss banker
+- `ralph_hamers`: Q5349717, Dutch banker
+- `ugur_sahin`: Q2505089, German oncologist of Turkish descent, immunologist, developer of COVID-19 vaccines (born 1965)
+- `anshu_jain`: Q569798, Indian-born British businessman (1963–2022)
+- `jurgen_fitschen`: Q104588, German banker
+- `john_cryan`: Q6227807, British businessman, financier, banker and CEO
+- `christian_sewing`: Q51641672, German bank manager
+- `a_g_lafley`: Q2636700, Ex CEO de Procter & Gamble
+- `david_taylor`: Q21063670, American businessperson and corporate board member
+- `jon_moeller`: Q16195693, American businessperson, President & Chief Executive Officer at Procter & Gamble
+- `alex_gorsky`: Q16193601, American businessman and corporate director; former chair and CEO of Johnson & Johnson
+- `joaquin_duato`: Q113356474, American corporate executive
+- `muhtar_kent`: Q1392181, Turkish-American businessperson (born 1952)
+- `james_quincey`: Q27839505, British businessman and Chief Executive Officer of Coca-Cola
+- `charles_scharf`: Q18386868, American businessman; chief executive officer and president of Wells Fargo (born 1965)
+- `alfred_kelly`: Q104784751, American business executive
+- `ryan_mcinerney`: Q114837486, American business executive; CEO of Visa Inc.
+- `rex_tillerson`: Q331401, 69th United States Secretary of State
+- `darren_woods`: Q28018191, American businessman and energy executive (born c. 1965); chief executive officer and chairman of ExxonMobil since 2017
+- `frank_blake`: Q1437140, American businessman and lawyer
+- `craig_menear`: Q28920824, American businessman and the CEO of The Home Depot
+- `ted_decker`: Q113632708, American businessperson and board member, CEO of Home Depot
+- `indra_nooyi`: Q264913, Indian-American business executive and former CEO of PepsiCo (born 1955)
+- `ramon_laguarta`: Q56042353, Spanish businessman and corporate director; Chair and CEO, PepsiCo
+- `paul_bulcke`: Q261057, Belgian businessman
+- `ulf_mark_schneider`: Q98401, businessperson
+- `laurent_freixe`: Q33175127, French business executive (born 1962)
+- `philipp_navratil`: Q136051736, Swiss business executive
+- `paul_polman`: Q2061703, Dutch businessman
+- `alan_jope`: Q59306324, British businessman; former CEO of Unilever
+- `hein_schumacher`: Q116501956, Dutch businessman
+- `fernando_fernandez`: -, no Wikidata item
+- `joe_kaeser`: Q103859, German businessman
+- `roland_busch`: Q66438345, German business executive and physicist
+- `jean_paul_agon`: Q195993, French businessman
+- `nicolas_hieronimus`: Q33119793, Chief Executive Officer - L'Oréal
+- `jean_pascal_tricoire`: Q3168302, French businessperson
+- `peter_herweck`: Q107420160, German businessman, CEO Schneider Electric
+- `olivier_blum`: Q140697703, (no description)
+- `chris_viehbacher`: Q1086450, Canadian businessman
+- `olivier_brandicourt`: Q19360238, French businessman
+- `paul_hudson`: Q67029500, British pharmaceutical executive (born 1967)
+- `michael_diekmann`: Q101023, Business person
+- `oliver_bate`: Q18221241, German manager
+
+When done, move this file to coordination/inbox/user/done/ or tell the data session which lines changed.
