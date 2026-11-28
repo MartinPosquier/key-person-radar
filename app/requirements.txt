@@ -1,0 +1,7 @@
+# Owner: ml session. Dependencies of the web app only (Streamlit Community Cloud reads the
+# requirements file next to the entrypoint first). The app reads precomputed files and
+# never imports the kpr package, so no ML or NLP library is needed here.
+streamlit>=1.50,<2
+plotly>=5.20
+pandas>=2.2,<3
+pyarrow>=15

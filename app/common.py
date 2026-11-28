@@ -11,11 +11,13 @@ Owner: ml session.
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import pandas as pd
 
-DATA_DIR = Path(__file__).resolve().parent / "data"
+# KPR_APP_DATA points the app to another export folder (tests, previews).
+DATA_DIR = Path(os.environ.get("KPR_APP_DATA") or Path(__file__).resolve().parent / "data")
 
 # Honest-display rules, dossier §12.4 and §10.6.
 LOW_CONFIDENCE_MIN_EVENTS = 8
@@ -52,11 +54,11 @@ class AppDataError(RuntimeError):
 # ---- loading ------------------------------------------------------------------------------
 
 
-def load_frame(name: str, data_dir: Path = DATA_DIR) -> pd.DataFrame:
+def load_frame(name: str, data_dir: Path | None = None) -> pd.DataFrame:
     """Read app/data/<name>.parquet and check it has the columns the pages need."""
     if name not in APP_FILES:
         raise KeyError(f"unknown app file {name!r}; known: {sorted(APP_FILES)}")
-    path = Path(data_dir) / f"{name}.parquet"
+    path = Path(data_dir or DATA_DIR) / f"{name}.parquet"
     if not path.exists():
         raise AppDataError(
             f"{path} is missing. Run `python scripts/ml_make_app_demo.py` (demo data) "
@@ -69,15 +71,15 @@ def load_frame(name: str, data_dir: Path = DATA_DIR) -> pd.DataFrame:
     return df
 
 
-def load_meta(data_dir: Path = DATA_DIR) -> dict:
+def load_meta(data_dir: Path | None = None) -> dict:
     """Read app/data/meta.json (data origin, export date). Empty dict if absent."""
-    path = Path(data_dir) / "meta.json"
+    path = Path(data_dir or DATA_DIR) / "meta.json"
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
 
 
-def load_case_study(data_dir: Path = DATA_DIR) -> dict | None:
+def load_case_study(data_dir: Path | None = None) -> dict | None:
     """Read app/data/case_study.json (Nvidia 2026 case, task Q12), or None if absent."""
-    path = Path(data_dir) / "case_study.json"
+    path = Path(data_dir or DATA_DIR) / "case_study.json"
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
 
 
