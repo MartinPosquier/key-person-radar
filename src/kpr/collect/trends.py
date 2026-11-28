@@ -74,19 +74,24 @@ def resolve_entities(client, persons: dict[str, str], companies: dict[str, str])
     cache = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
     todo = [(f"person:{k}", v, PERSON_HINTS) for k, v in persons.items()] + \
            [(f"company:{k}", v, COMPANY_HINTS) for k, v in companies.items()]
+    out: dict = {}
     for key, name, hints in todo:
         if key in cache:
             continue
         try:
             sugg = client.suggestions(name)
         except Exception as exc:  # noqa: BLE001 - pytrends raises bare exceptions on 429
-            raise TooManyRequests(str(exc)) from exc
+            # Rate-limited: use the plain text for this run, without caching, so that a later
+            # run can still resolve the entity.
+            log.warning("no Trends suggestions for %r (%s): plain text used", name, exc)
+            out[key] = {"name": name, "term": name, "entity": None}
+            continue
         chosen = choose_entity(sugg, name, hints)
         cache[key] = {"name": name, "term": chosen["mid"] if chosen else name,
                       "entity": chosen}
         path.write_text(json.dumps(cache, indent=1, ensure_ascii=False), encoding="utf-8")
         time.sleep(1.0)
-    return cache
+    return {**cache, **out}
 
 
 def fetch_pair(client, person_term: str, company_term: str, start: str, end: str) -> pd.DataFrame:
@@ -156,6 +161,8 @@ def main(argv: list[str] | None = None) -> int:
                     continue
                 done += 1
                 for year, r in yearly_ratio(weekly).items():
+                    if not int(start[:4]) <= year <= int(end[:4]):
+                        continue  # a week starting late December belongs to the window before
                     rows.append({"person_id": pid, "year": int(year), "ratio": float(r)})
     except TooManyRequests:
         log.error("stopped after %d consecutive 429 errors; rerun later to resume", MAX_429)
