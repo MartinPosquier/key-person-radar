@@ -1,5 +1,5 @@
 # Owner: ml session.
-scikit-learn>=1.4,<2
+scikit-learn>=1.8,<2
 lightgbm>=4.3
 shap>=0.45
 matplotlib>=3.8
