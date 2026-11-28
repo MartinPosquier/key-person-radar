@@ -181,7 +181,6 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     params = load_ml_params()
     mandates, companies = read_table("mandates"), load_companies()
-    scores_dir = data_dir() / "processed" / "scores"
     if use_fixtures():  # compute the intermediate tables in memory, small bootstraps
         events = read_table("events")
         features = load_features(events)
@@ -191,6 +190,7 @@ def main(argv: list[str] | None = None) -> int:
         value = build_values(events, features, params, tuple(args.splits), tables,
                              load_departures(), companies, n_model_boot=5)
     else:
+        scores_dir = data_dir() / "processed" / "scores"
         sens = pd.read_parquet(scores_dir / "sensitivity.parquet")
         value = pd.read_parquet(scores_dir / "value.parquet")
     scale = load_or_compute_scale(sens, args.recompute_scale, write=not use_fixtures())

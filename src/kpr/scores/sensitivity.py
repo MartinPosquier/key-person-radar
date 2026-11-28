@@ -193,9 +193,9 @@ def combine(a: pd.DataFrame, b: pd.DataFrame, min_spearman: float) -> pd.DataFra
 
 def load_predictive_model(feat_cols: list[str], train: pd.DataFrame, target: str):
     """Best model of M7 (processed/models), or an untuned boosting model on fixtures."""
-    models = data_dir() / "processed" / "models"
-    best = models / "best_models.json"
-    if not use_fixtures() and best.exists():
+    models = None if use_fixtures() else data_dir() / "processed" / "models"
+    best = models / "best_models.json" if models is not None else None
+    if best is not None and best.exists():
         name = json.loads(best.read_text(encoding="utf-8"))[target]
         log.info("method A uses the M7 best model for %s: %s", target, name)
         return joblib.load(models / f"{target}__{name}.joblib")
