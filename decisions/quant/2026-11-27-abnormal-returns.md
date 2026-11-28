@@ -1,0 +1,6 @@
+Date: 2026-11-27
+Session: quant
+Decision: abnormal returns from an OLS market model on sessions [J-250, J-30]; CAR = sum of daily ARs, computed on the `ret` columns as delivered by data (log returns, dossier §6.4, so the sum over a window is exact); event time counted in exchange sessions given by the caller; a CAR is missing if any AR of its window is missing
+Why: dossier §7.5 (main model, windows) and §7.4 (min 120 estimation sessions). The 120-session rule is applied by events.py as an exclusion reason from the `n_est` column, not inside returns.py, so excluded shocks keep a CAR and the filter can be checked for bias (§7.4: "les chocs écartés ne sont pas supprimés"). A hard floor of 30 days (MIN_FIT_OBS) avoids meaningless fits. Missing ARs are never filled with zero: a filled zero would shrink CARs toward zero around data gaps.
+Variants: market-adjusted (beta = 1) and Fama-French 3 (US factors for US stocks, Developed Europe factors for EU stocks), as in §7.5; FF3 factors need a new table (contract request 2026-11-27-contract-ff-factors).
+Alternatives considered: buy-and-hold abnormal returns (rejected: §7.5 defines CAR as a sum of ARs); event time from price rows (rejected: a missing quote would shift the window by one day, see §6.5); Scholes-Williams or Dimson betas for thin trading (not needed, the universe is large caps).
