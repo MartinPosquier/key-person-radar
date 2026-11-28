@@ -21,6 +21,16 @@ def test_every_row_is_complete(candidates):
     assert candidates["source_url"].str.startswith("https://").all()
 
 
+def test_company_ids_follow_the_universe(candidates):
+    from kpr.build.events import load_universe
+
+    universe = load_universe()
+    if not universe:
+        pytest.skip("config/universe.yaml is still empty (task D1 not merged)")
+    unknown = set(candidates["company_id"]) - set(universe) - ne.OUTSIDE_UNIVERSE
+    assert not unknown, f"company_id not in universe.yaml: {sorted(unknown)}"
+
+
 def test_dates_cover_the_study_period(candidates):
     assert candidates["date"].min() >= pd.Timestamp("2014-01-01")
     assert candidates["date"].max() <= pd.Timestamp("2025-12-31")

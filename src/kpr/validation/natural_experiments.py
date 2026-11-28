@@ -49,6 +49,9 @@ KINDS = (
 )
 # Days around a natural experiment kept out of training and calibration (dossier §11.2).
 EXCLUSION_DAYS = 10
+# Companies outside the 60-company universe that host a natural experiment; every other
+# company_id of the CSV is a company_id of config/universe.yaml (not the yfinance ticker).
+OUTSIDE_UNIVERSE = frozenset({"MCD", "CMG", "UNH"})
 
 
 def load_candidates(path: str | Path = CANDIDATES_PATH) -> pd.DataFrame:
