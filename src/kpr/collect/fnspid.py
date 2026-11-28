@@ -3,9 +3,9 @@
 Owner: data session. Task D8 in PARALLEL_SESSIONS.md §7. Dossier §5.7, §8.3.
 
 FNSPID (Hugging Face dataset Zihan1004/FNSPID) gives financial news titles linked to US
-tickers until 2023. We use `Stock_news/All_external.csv` (5.7 GB: date in UTC, title, ticker,
-URL, publisher); the 23 GB file with full articles is not needed (dossier §8.3 works on
-titles only).
+tickers until 2023. We read `Stock_news/All_external.csv` (5.7 GB, until June 2020) and
+`Stock_news/nasdaq_exteral_data.csv` (23 GB with full texts, until December 2023), keeping
+only date (UTC), title, ticker, URL and publisher (dossier §8.3 works on titles only).
 
   python -m kpr.collect.fnspid --download   # resumable download to raw/fnspid/
   python -m kpr.collect.fnspid --subset     # keep the rows that concern our universe
@@ -31,20 +31,23 @@ from kpr.utils.logging import get_logger
 
 log = get_logger(__name__)
 
-URL = ("https://huggingface.co/datasets/Zihan1004/FNSPID/resolve/main/"
-       "Stock_news/All_external.csv")
-FILE = "All_external.csv"
+BASE = "https://huggingface.co/datasets/Zihan1004/FNSPID/resolve/main/Stock_news/"
+# All_external.csv stops in June 2020; nasdaq_exteral_data.csv (with full texts, 23 GB) goes
+# to December 2023. Both are read as streams, keeping only the title columns.
+FILES = ("All_external.csv", "nasdaq_exteral_data.csv")
+URL = BASE + FILES[0]
+FILE = FILES[0]
 COLUMNS = ["Date", "Article_title", "Stock_symbol", "Url", "Publisher"]
-CHUNK_ROWS = 500_000
+CHUNK_ROWS = 100_000
 
 
-def download(url: str = URL, attempts: int = 30) -> str:
+def download(url: str = URL, attempts: int = 30, file: str = FILE) -> str:
     """Resumable download (HTTP Range) to raw/fnspid/All_external.csv, retried on cuts."""
     import time
 
     for i in range(attempts):
         try:
-            return _download_once(url)
+            return _download_once(url, file)
         except (requests.ConnectionError, requests.exceptions.ChunkedEncodingError,
                 requests.Timeout) as exc:
             log.warning("download cut (%s), resuming (%d / %d)", exc.__class__.__name__,
@@ -53,8 +56,8 @@ def download(url: str = URL, attempts: int = 30) -> str:
     raise RuntimeError("FNSPID download failed after repeated cuts; rerun to resume")
 
 
-def _download_once(url: str) -> str:
-    path = raw_dir("fnspid") / FILE
+def _download_once(url: str, file: str) -> str:
+    path = raw_dir("fnspid") / file
     part = path.with_suffix(".part")
     if path.exists():
         return str(path)
@@ -77,7 +80,7 @@ def _download_once(url: str) -> str:
                 if written // (500 << 20) != (written - len(block)) // (500 << 20):
                     log.info("downloaded %.1f / %.1f GB", written / 1e9, total / 1e9)
     os.replace(part, path)
-    append_collection_log("fnspid", file=FILE, bytes=written)
+    append_collection_log("fnspid", file=file, bytes=written)
     return str(path)
 
 
@@ -118,14 +121,16 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if not (args.download or args.subset):
         parser.error("choose --download and/or --subset")
-    path = str(raw_dir("fnspid") / FILE)
     if args.download:
-        path = download()
-        log.info("FNSPID file ready: %s", path)
+        for f in FILES:
+            log.info("FNSPID file ready: %s", download(BASE + f, file=f))
     if args.subset:
         tickers = {c["ticker"] for c in load_universe() if c["region"] == "US"}
         aliases = [a for p in load_persons() for a in (p.get("aliases") or [])]
-        df = subset(path, tickers, aliases)
+        parts = [subset(str(raw_dir("fnspid") / f), tickers, aliases) for f in FILES
+                 if (raw_dir("fnspid") / f).exists()]
+        df = pd.concat(parts, ignore_index=True)
+        df = df.drop_duplicates(["url", "title"]).reset_index(drop=True)
         out = raw_dir("fnspid") / "subset.parquet"
         df.to_parquet(out, index=False)
         append_collection_log("fnspid", subset_rows=len(df))
