@@ -19,6 +19,7 @@ from __future__ import annotations
 import argparse
 import warnings
 
+import numpy as np
 import pandas as pd
 import statsmodels.formula.api as smf
 from statsmodels.tools.sm_exceptions import ConvergenceWarning
@@ -69,15 +70,25 @@ def fit_mixed(data: pd.DataFrame, target: str = "car_signed", random_intercept: 
 
 
 def person_slopes(result, data: pd.DataFrame) -> pd.DataFrame:
-    """Per person: total slopes beta + b_p on tone- and tone+, the random parts, n_events."""
+    """Per person: total slopes beta + b_p on tone- and tone+, the random parts, n_events.
+
+    se_neg / se_pos combine the variance of the fixed slope and the conditional variance of
+    the person's random deviation (independence assumed): the basis of method B's interval.
+    """
     fixed = result.fe_params
+    fixed_var = np.diag(result.cov_params().loc[list(TONE), list(TONE)])
     rows = []
     for person, effects in result.random_effects.items():
         b_neg = float(effects.get("tone_neg", 0.0))
         b_pos = float(effects.get("tone_pos", 0.0))
+        cond = result.random_effects_cov.get(person)
+        cond_var = [float(cond.loc[t, t]) if cond is not None and t in cond.index else 0.0
+                    for t in TONE]
         rows.append({
             "person_id": person,
             "slope_neg": fixed["tone_neg"] + b_neg, "slope_pos": fixed["tone_pos"] + b_pos,
+            "se_neg": float(np.sqrt(fixed_var[0] + cond_var[0])),
+            "se_pos": float(np.sqrt(fixed_var[1] + cond_var[1])),
             "b_neg": b_neg, "b_pos": b_pos,
             "n_events": int((data["person_id"] == person).sum()),
         })

@@ -69,8 +69,8 @@ def fit_and_compare(events: pd.DataFrame, features: pd.DataFrame, params: dict,
         for name, (model, is_baseline) in candidates.items():
             proba = task == "classification"
             pred = fit_predict(model, tr[X_cols], y_tr, va[X_cols], proba)
-            if not is_baseline:
-                fitted[(target, name)] = model.fit(tr[X_cols], y_tr)
+            if not is_baseline:  # saved models see the feature columns only
+                fitted[(target, name)] = model.fit(tr[feat_cols], y_tr)
             val = pd.DataFrame({"event_id": va["event_id"].to_numpy(), "target": target,
                                 "model": name, "y_true": va[target].to_numpy(), "y_pred": pred})
             preds.append(val)
