@@ -10,6 +10,8 @@ wikipedia:
 gdelt:
   min_articles_for_tone: 3
   max_share_of_free_quota: 0.5                      # decision rule of task D5
+  free_quota_tib: 1.0                               # BigQuery free tier: 1 TiB scanned per month
+  max_bytes_per_query_gb: 200                       # maximum_bytes_billed of each yearly query
 quality:                                            # dossier §6.7
   max_missing_share_views: 0.05
   ret_min: -0.8
