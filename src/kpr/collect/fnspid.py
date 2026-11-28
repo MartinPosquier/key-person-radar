@@ -38,7 +38,6 @@ FILES = ("All_external.csv", "nasdaq_exteral_data.csv")
 URL = BASE + FILES[0]
 FILE = FILES[0]
 COLUMNS = ["Date", "Article_title", "Stock_symbol", "Url", "Publisher"]
-CHUNK_ROWS = 100_000
 
 
 def download(url: str = URL, attempts: int = 30, file: str = FILE) -> str:
@@ -93,25 +92,48 @@ def alias_pattern(aliases: list[str]) -> str:
 
 
 def subset(path: str, tickers: set[str], aliases: list[str]) -> pd.DataFrame:
-    """Stream the CSV and keep rows of our tickers or whose title names one of our persons."""
-    pattern = alias_pattern(aliases)
-    kept = []
-    n = 0
-    reader = pd.read_csv(path, usecols=COLUMNS, chunksize=CHUNK_ROWS, dtype=str,
-                         on_bad_lines="skip", encoding_errors="replace")
-    for chunk in reader:
-        n += len(chunk)
-        title = chunk["Article_title"].fillna("")
-        mask = chunk["Stock_symbol"].isin(tickers) | title.str.lower().str.contains(
-            pattern, regex=True)
-        kept.append(chunk[mask])
-        log.info("%d rows read, %d kept so far", n, sum(len(k) for k in kept))
-    df = pd.concat(kept, ignore_index=True)
+    """Stream the CSV row by row and keep rows of our tickers or naming one of our persons.
+
+    The 23 GB file holds full article texts: the csv module reads one row at a time, so memory
+    stays flat (pandas chunks of full texts exhausted the machine's memory).
+    """
+    import csv
+    import re
+    import sys
+
+    csv.field_size_limit(min(sys.maxsize, 2**31 - 1))
+    rx = re.compile(alias_pattern(aliases))
+    kept: list[tuple] = []
+    with open(path, encoding="utf-8", errors="replace", newline="") as fh:
+        reader = csv.reader(fh)
+        header = next(reader)
+        idx = [header.index(c) for c in COLUMNS]
+        width = max(idx)
+        for n, row in enumerate(reader, 1):
+            if len(row) <= width:
+                continue
+            date_, title, ticker, url, publisher = (row[i] for i in idx)
+            if ticker in tickers or rx.search(title.lower()):
+                kept.append((date_, title, ticker, url, publisher))
+            if n % 1_000_000 == 0:
+                log.info("%s: %d rows read, %d kept so far", path.rsplit("\\", 1)[-1], n,
+                         len(kept))
+    df = pd.DataFrame(kept, columns=COLUMNS)
     df["date_utc"] = pd.to_datetime(df["Date"].str.replace(" UTC", "", regex=False),
                                     errors="coerce", utc=True).dt.tz_localize(None)
     return df.drop(columns=["Date"]).rename(columns={
         "Article_title": "title", "Stock_symbol": "ticker", "Url": "url",
         "Publisher": "publisher"})
+
+
+def subset_cached(file: str, tickers: set[str], aliases: list[str]) -> pd.DataFrame:
+    """Subset of one FNSPID file, cached in raw/fnspid/subset_<file>.parquet."""
+    out = raw_dir("fnspid") / f"subset_{file.removesuffix('.csv')}.parquet"
+    if out.exists():
+        return pd.read_parquet(out)
+    df = subset(str(raw_dir("fnspid") / file), tickers, aliases)
+    df.to_parquet(out, index=False)
+    return df
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -127,7 +149,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.subset:
         tickers = {c["ticker"] for c in load_universe() if c["region"] == "US"}
         aliases = [a for p in load_persons() for a in (p.get("aliases") or [])]
-        parts = [subset(str(raw_dir("fnspid") / f), tickers, aliases) for f in FILES
+        parts = [subset_cached(f, tickers, aliases) for f in FILES
                  if (raw_dir("fnspid") / f).exists()]
         df = pd.concat(parts, ignore_index=True)
         df = df.drop_duplicates(["url", "title"]).reset_index(drop=True)
