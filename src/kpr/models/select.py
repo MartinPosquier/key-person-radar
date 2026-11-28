@@ -186,8 +186,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--target", default="car_signed", choices=["car_signed", "car_abs"])
     args = parser.parse_args(argv)
     params = load_ml_params()
-    tuning = data_dir() / "processed" / "models" / "tuning.json"
-    if not use_fixtures() and tuning.exists():
+    tuning = None if use_fixtures() else data_dir() / "processed" / "models" / "tuning.json"
+    if tuning is not None and tuning.exists():
         best = json.loads(tuning.read_text(encoding="utf-8"))[args.target]["lasso"]
         params["lasso_alpha"] = best["best_params"]["model__alpha"]
     events = read_table("events")
